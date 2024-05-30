@@ -1,7 +1,7 @@
 <div id="kt_header" style="" class="header align-items-stretch">
   <div class="header-brand">
     <a href="#">
-      <img alt="Logo" src="{{ asset('front-assets/img/logo_sipar.png') }}" class="h-35px h-lg-50px " />
+      <h1 class="text-white">SIMPASKOT</h1>
     </a>
     <div id="kt_aside_toggle" class="btn btn-icon w-auto px-0 btn-active-color-primary aside-minimize" data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body" data-kt-toggle-name="aside-minimize">
       <i class="ki-duotone ki-entrance-right fs-1 me-n1 minimize-default">

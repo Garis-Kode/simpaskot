@@ -15,7 +15,7 @@
 		<link rel="canonical" href="" />
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('front-assets/img/logo_sipar.png') }}">
 
-    @include('admin.layouts._partials-app.head')
+    @include('layouts._partials-app.head')
 
 </head>
 <body>
@@ -23,11 +23,11 @@
   <div class="d-flex flex-column flex-root">
     <div class="page d-flex flex-row flex-column-fluid">
 
-      @include('admin.layouts._partials-app.sidebar')
+      @include('layouts._partials-app.sidebar')
       
       <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
 
-        @include('admin.layouts._partials-app.topbar')
+        @include('layouts._partials-app.topbar')
 
         <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
           <div class="post d-flex flex-column-fluid" id="kt_post">
@@ -39,14 +39,14 @@
           </div>
         </div>
 
-        @include('admin.layouts._partials-app.footer')
+        @include('layouts._partials-app.footer')
 
       </div>
     </div>
   </div>
 
-  @include('admin.layouts._partials-app.alert')
-  @include('admin.layouts._partials-app.foot')
+  @include('layouts._partials-app.alert')
+  @include('layouts._partials-app.foot')
   
   <!--begin::Vendors Javascript(used for this page only)-->
   @yield('script')
