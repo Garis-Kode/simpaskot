@@ -1,42 +1,51 @@
 
 @if (session()->has('success'))
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-      var myToast = new bootstrap.Toast(document.getElementById('success'));
-      myToast.show();
-  });
-</script>
-<div class="position-fixed bottom-0 end-0 mt-5 me-5" style="z-index: 9999;">
-  <div class="toast align-items-center bg-dark" id="success" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="d-flex">
-      <div class="toast-body text-white fs-6">
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myToast = new bootstrap.Toast(document.getElementById('success'));
+        myToast.show();
+    });
+  </script>
+  <div class="position-fixed bottom-0 end-0 mt-5 me-5 mb-5" style="z-index: 9999;">
+    <div class="toast bg-success show" id="error" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header bg-success py-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill fs-2 text-white me-3" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </svg>
+        <strong class="me-auto text-white fs-7">Success</strong>
+        <small class="text-white">Now</small>
+        <button type="button" class="btn-close p-2 bg-white" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body text-white py-3">
         {{ session('success') }}
       </div>
-      <button type="button" class="btn-close me-2 m-auto bg-white p-2" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
   </div>
-</div>
-
 
 @elseif (session()->has('error'))
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-      var myToast = new bootstrap.Toast(document.getElementById('error'));
-      myToast.show();
-  });
-</script>
-<div class="position-fixed bottom-0 end-0 mt-5 me-5" style="z-index: 9999;">
-  <div class="toast align-items-center bg-danger" id="error" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="d-flex">
-      <div class="toast-body text-white fs-6">
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myToast = new bootstrap.Toast(document.getElementById('error'));
+        myToast.show();
+    });
+  </script>
+  <div class="position-fixed bottom-0 end-0 mt-5 me-5 mb-5" style="z-index: 9999;">
+    <div class="toast bg-danger show" id="error" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header bg-danger py-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill fs-2 text-white me-3" viewBox="0 0 16 16">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+          </svg>
+          <strong class="me-auto text-white fs-7">Failed</strong>
+          <small class="text-white">Now</small>
+          <button type="button" class="btn-close p-2 bg-white" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body text-white py-5">
         {{ session('error') }}
       </div>
-      <button type="button" class="btn-close me-2 m-auto bg-white p-2" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
   </div>
-</div>
 
 @endif
 

@@ -48,7 +48,7 @@
                 <span class="path2"></span>
               </i>
             </span>
-            <span class="menu-title">TPS/TPA</span>
+            <span class="menu-title">Dumping Place</span>
           </a>
         </div>
 
@@ -63,7 +63,7 @@
                 <span class="path5"></span>
               </i>
             </span>
-            <span class="menu-title">Truk Sampah</span>
+            <span class="menu-title">garbage truck</span>
           </a>
         </div>
 
@@ -77,7 +77,7 @@
                 <span class="path4"></span>
               </i>
             </span>
-            <span class="menu-title">Menejemen Pengguna</span>
+            <span class="menu-title">User Management</span>
           </a>
         </div>
 
