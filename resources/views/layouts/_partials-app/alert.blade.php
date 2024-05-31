@@ -8,8 +8,8 @@
     });
   </script>
   <div class="position-fixed bottom-0 end-0 mt-5 me-5 mb-5" style="z-index: 9999;">
-    <div class="toast bg-success show" id="error" role="alert" aria-live="assertive" aria-atomic="true">
-      <div class="toast-header bg-success py-3">
+    <div class="toast bg-primary show" id="error" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header bg-primary py-3">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill fs-2 text-white me-3" viewBox="0 0 16 16">
           <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
         </svg>
@@ -68,11 +68,11 @@
   <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
     <div class="modal-content shadow rounded ">
       <div class="modal-body p-4 text-center py-8">
-        <h5 class="mb-2">Konfirmasi!!</h5>
-        <p class="mb-0">Kamu yakin ingin menghapus data ini?</p>
+        <h5 class="mb-2">Confirmation</h5>
+        <p class="mb-0">Are you sure you want to delete this data?</p>
       </div>
       <div class="modal-footer flex-nowrap p-0">
-        <button type="button" class="btn-delete-oke btn btn-lg btn-secondary bg-transparent text-dark fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" >Hapus</button>
+        <button type="button" class="btn-delete-oke btn btn-lg btn-secondary bg-transparent text-dark fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" >Delete</button>
         <button type="button" class="btn btn-lg btn-secondary bg-transparent text-dark fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
       </div>
     </div>

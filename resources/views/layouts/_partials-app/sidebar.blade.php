@@ -2,13 +2,13 @@
   <div class="aside-toolbar flex-column-auto" id="kt_aside_toolbar">
     <div class="aside-user d-flex align-items-sm-center justify-content-center py-5">
       <div class="symbol symbol-50px">
-        <img src="https://ui-avatars.com/api/?background=E79024&color=fff&name=fajar" alt="" />
+        <img src="https://ui-avatars.com/api/?background=F9F9F9&color=080655&bold=true&name={{ Auth::user()->name }}" alt="{{ Auth::user()->name }}" />
       </div>
       <div class="aside-user-info flex-row-fluid flex-wrap ms-5">
         <div class="d-flex align-items-center">
           <div class="flex-grow-1 me-2">
-            <a href="#" class="text-white text-hover-primary fs-6 fw-bold">Fajar</a>
-            <span class="text-gray-600 fw-semibold d-block fs-8 mb-1">johndoe@example.com</span>
+            <a href="#" class="text-white text-hover-primary fs-6 fw-bold">{{ Auth::user()->name }}</a>
+            <span class="text-gray-600 fw-semibold d-block fs-8 mb-1">{{ Auth::user()->email }}</span>
           </div>
         </div>
       </div>
@@ -40,8 +40,8 @@
           </div>
         </div>
 
-        <div class="menu-item">
-          <a class="menu-link" href="#">
+        <div class="menu-item @if ($title == 'Dumping Place') here @endif">
+          <a class="menu-link" href="{{ route('dumping-place') }}">
             <span class="menu-icon">
               <i class="ki-duotone ki-geolocation fs-2">
                 <span class="path1"></span>
@@ -63,7 +63,7 @@
                 <span class="path5"></span>
               </i>
             </span>
-            <span class="menu-title">garbage truck</span>
+            <span class="menu-title">Garbage truck</span>
           </a>
         </div>
 
@@ -88,7 +88,7 @@
           </div>
           
           <div class="menu-item">
-            <a class="menu-link" href="#">
+            <a class="menu-link" href="{{ route('logout') }}">
               <span class="menu-icon">
                 <i class="ki-duotone ki-entrance-right fs-2">
                   <span class="path1"></span>

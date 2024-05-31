@@ -12,7 +12,6 @@ class AuthController extends Controller
         $data = [
             'title' => 'Login',
             'subTitle' => null,
-            'page_id' => null
         ];
         return view('auth.login', $data);
     }
@@ -29,7 +28,12 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             return redirect()->route('dashboard');
         } else {
-            return redirect()->route('login')->with('error', 'Username and password are incorrect, please try again');
+            return redirect()->route('login')->with('success', 'Username and password are incorrect, please try again');
         }
+    }
+
+    public function logout(){
+        Auth::logout();
+        return redirect()->route('login');
     }
 }
