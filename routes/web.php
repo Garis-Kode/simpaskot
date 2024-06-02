@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\DumpingPlaceController;
 
 Route::prefix('/auth')->middleware(['guest'])->group(function () {
@@ -23,3 +24,9 @@ Route::post('/dumping-place', [DumpingPlaceController::class, 'store'])->name('d
 Route::post('/dumping-place/{id}', [DumpingPlaceController::class, 'update'])->name('dumping-place.update');
 Route::get('/dumping-place/{id}', [DumpingPlaceController::class, 'destroy'])->name('dumping-place.destroy');
 
+Route::prefix('/user')->group(function () {
+    Route::get('/', [UserController::class, 'user'])->name('user');
+    Route::post('/', [UserController::class, 'store'])->name('user.store');
+    Route::post('/{id}/update', [UserController::class, 'update'])->name('user.update');
+    Route::get('/{id}/destroy', [UserController::class, 'destroy'])->name('user.destroy');
+});

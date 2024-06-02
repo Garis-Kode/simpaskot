@@ -8,8 +8,8 @@
         <div class="card-header align-items-center py-5 gap-2 gap-md-5">
           <div class="card-title">
             <h3 class="card-title align-items-start flex-column">
-              <span class="card-label fw-bold fs-3 mb-1">Waste Disposal Site</span>
-              <span class="text-muted fw-semibold fs-7">Lhokseumawe City Waste Disposal</span>              
+              <span class="card-label fw-bold fs-3 mb-1">Place</span>
+              <span class="text-muted fw-semibold fs-7">Dumping Place</span>              
             </h3>
           </div>
           <div class="card-toolbar">
@@ -270,7 +270,7 @@
 @section('script')
 <script>
   $("#kt_datatable_horizontal_scroll").DataTable({
-    "scrollX": true
+    "scrollX": false
   });
 </script>
 @endsection

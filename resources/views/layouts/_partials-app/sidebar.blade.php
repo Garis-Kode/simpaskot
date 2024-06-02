@@ -67,8 +67,8 @@
           </a>
         </div>
 
-        <div class="menu-item">
-          <a class="menu-link" href="#">
+        <div class="menu-item @if ($title == 'User Management') here @endif">
+          <a class="menu-link" href="{{ route('user') }}">
             <span class="menu-icon">
               <i class="ki-duotone ki-profile-user fs-2">
                 <span class="path1"></span>
@@ -80,32 +80,17 @@
             <span class="menu-title">User Management</span>
           </a>
         </div>
-
-          <div class="menu-item pt-5">
-            <div class="menu-content">
-              <span class="menu-heading fw-bold text-uppercase fs-7">Account</span>
-            </div>
-          </div>
-          
-          <div class="menu-item">
-            <a class="menu-link" href="{{ route('logout') }}">
-              <span class="menu-icon">
-                <i class="ki-duotone ki-entrance-right fs-2">
-                  <span class="path1"></span>
-                  <span class="path2"></span>
-                </i>
-              </span>
-              <span class="menu-title">Logout</span>
-            </a>
-          </div>
       </div>
     </div>
   </div>
 
   <div class="aside-footer flex-column-auto py-5" id="kt_aside_footer">
-    <a href="#" class="btn btn-flex btn-custom btn-primary w-100 d-flex align-items-center">
-      <i class="ki-duotone ki-black-left"></i>
-      <span class="btn-label">Halaman Utama</span>
+    <a href="{{ route('logout') }}" class="btn btn-flex btn-custom btn-primary w-100 d-flex align-items-center">
+      <i class="ki-duotone ki-entrance-right fs-2">
+        <span class="path1"></span>
+        <span class="path2"></span>
+      </i>
+      <span class="btn-label">Logout</span>
     </a>
   </div>
 </div>
