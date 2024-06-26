@@ -16,10 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->enum('type', ['TPA', 'TPS']);
             $table->string('address');
-            $table->string('latitude');
-            $table->string('longitude');
-            $table->integer('volume')->nullable();
-            $table->integer('area')->nullable();
+            $table->float('latitude');
+            $table->float('longitude');
+            $table->float('volume')->nullable();
             $table->timestamps();
         });
     }

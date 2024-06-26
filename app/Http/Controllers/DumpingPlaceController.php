@@ -36,7 +36,6 @@ class DumpingPlaceController extends Controller
         $data->latitude = $request->input('lat');
         $data->longitude = $request->input('long');
         $data->volume = $request->input('volume');
-        $data->area = $request->input('area');
         $data->save();
         return redirect()->route('dumping-place')->with('success', 'New data has been successfully added');
     }
@@ -60,7 +59,6 @@ class DumpingPlaceController extends Controller
         $data->latitude = $request->input('lat');
         $data->longitude = $request->input('long');
         $data->volume = $request->input('volume');
-        $data->area = $request->input('area');
         $data->save();
         return redirect()->route('dumping-place')->with('success', 'Data has been successfully updated');
     }

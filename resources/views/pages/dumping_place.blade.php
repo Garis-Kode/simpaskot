@@ -60,7 +60,7 @@
                         </div>
                         <div class="mb-5">
                           <label for="exampleFormControlInput1" class="required form-label">Latitude</label>
-                          <input type="text" name="lat" class="form-control form-control-solid @error('lat') is-invalid @enderror"  value="{{ old('lat') }}" placeholder="Latitude" required/>
+                          <input type="number" step="any" name="lat" class="form-control form-control-solid @error('lat') is-invalid @enderror"  value="{{ old('lat') }}" placeholder="Latitude" required/>
                           @error('lat')
                             <div class="invalid-feedback">
                               {{ $message }}
@@ -69,38 +69,24 @@
                         </div>
                         <div class="mb-5">
                           <label for="exampleFormControlInput1" class="required form-label">Logitude</label>
-                          <input type="text" name="long" class="form-control form-control-solid @error('long') is-invalid @enderror"  value="{{ old('long') }}" placeholder="Logitude" required/>
+                          <input type="number" step="any" name="long" class="form-control form-control-solid @error('long') is-invalid @enderror"  value="{{ old('long') }}" placeholder="Logitude" required/>
                           @error('long')
                             <div class="invalid-feedback">
                               {{ $message }}
                             </div>
                           @enderror
                         </div>
-                        <div class="row">
-                          <div class="col mb-5">
-                            <label for="exampleFormControlInput1" class="form-label">Volume</label>
-                            <div class="input-group">
-                              <input type="number" name="volume" class="form-control form-control-solid @error('volume') is-invalid @enderror"  value="{{ old('volume') }}" placeholder="0"/>
-                              <span class="input-group-text border-0" id="basic-addon2">m<sup>3</sup> </span>
-                            </div>
-                            @error('volume')
-                              <div class="invalid-feedback">
-                                {{ $message }}
-                              </div>
-                            @enderror
+                        <div class="mb-5">
+                          <label for="exampleFormControlInput1" class="form-label">Volume</label>
+                          <div class="input-group">
+                            <input type="number" step="any" name="volume" class="form-control form-control-solid @error('volume') is-invalid @enderror"  value="{{ old('volume') }}" placeholder="0"/>
+                            <span class="input-group-text border-0" id="basic-addon2">m<sup>3</sup> </span>
                           </div>
-                          <div class="col mb-5">
-                            <label for="exampleFormControlInput1" class="form-label">Area</label>
-                            <div class="input-group">
-                              <input type="number" name="area" class="form-control form-control-solid @error('area') is-invalid @enderror"  value="{{ old('area') }}" placeholder="0"/>
-                              <span class="input-group-text border-0" id="basic-addon2">m<sup>2</sup> </span>
+                          @error('volume')
+                            <div class="invalid-feedback">
+                              {{ $message }}
                             </div>
-                            @error('area')
-                              <div class="invalid-feedback">
-                                {{ $message }}
-                              </div>
-                            @enderror
-                          </div>
+                          @enderror
                         </div>
                       </div>
                       <div class="modal-footer">
@@ -114,16 +100,15 @@
         </div>
         <div class="card-body pt-0">
           <div class="table-responsive">
-            <table id="kt_datatable_horizontal_scroll" class="table table-striped table-row-dashed gy-5 gs-7">
+            <table id="kt_datatable_horizontal_scroll" class="table table-row-dashed gy-5 fs-6">
               <thead>
-                <tr class="fw-semibold fs-6 text-gray-800">
+                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                   <th class="min-w-150px">Name</th>
                   <th class="min-w-50px">Type</th>
                   <th class="min-w-200px">Address</th>
                   <th class="min-w-100px">Latitude</th>
                   <th class="min-w-100px">Logitude</th>
                   <th class="min-w-50px">Volume</th>
-                  <th class="min-w-50px">Area</th>
                   <th class="min-w-50px text-end">action</th>
                 </tr>
               </thead>
@@ -136,7 +121,6 @@
                     <td>{{ $item->latitude }}</td>
                     <td>{{ $item->longitude }}</td>
                     <td>{{ $item->volume }} m<sup>3</sup> </td>
-                    <td>{{ $item->area }} m<sup>2</sup></td>
                     <td class="text-end">
                       <a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                         Actions
@@ -213,7 +197,7 @@
               </div>
               <div class="mb-5">
                 <label for="exampleFormControlInput1" class="required form-label">Latitude</label>
-                <input type="text" name="lat" class="form-control form-control-solid @error('lat') is-invalid @enderror"  value="{{ old('lat') ?? $item->latitude }}" placeholder="Latitude" required/>
+                <input type="number" step="any" name="lat" class="form-control form-control-solid @error('lat') is-invalid @enderror"  value="{{ old('lat') ?? $item->latitude }}" placeholder="Latitude" required/>
                 @error('lat')
                   <div class="invalid-feedback">
                     {{ $message }}
@@ -222,38 +206,24 @@
               </div>
               <div class="mb-5">
                 <label for="exampleFormControlInput1" class="required form-label">Logitude</label>
-                <input type="text" name="long" class="form-control form-control-solid @error('long') is-invalid @enderror"  value="{{ old('long') ?? $item->longitude }}" placeholder="Logitude" required/>
+                <input type="number" step="any" name="long" class="form-control form-control-solid @error('long') is-invalid @enderror"  value="{{ old('long') ?? $item->longitude }}" placeholder="Logitude" required/>
                 @error('long')
                   <div class="invalid-feedback">
                     {{ $message }}
                   </div>
                 @enderror
               </div>
-              <div class="row">
-                <div class="col mb-5">
-                  <label for="exampleFormControlInput1" class="form-label">Volume</label>
-                  <div class="input-group">
-                    <input type="number" name="volume" class="form-control form-control-solid @error('volume') is-invalid @enderror"  value="{{ old('volume') ?? $item->volume }}" placeholder="0"/>
-                    <span class="input-group-text border-0" id="basic-addon2">m<sup>3</sup> </span>
-                  </div>
-                  @error('volume')
-                    <div class="invalid-feedback">
-                      {{ $message }}
-                    </div>
-                  @enderror
+              <div class="mb-5">
+                <label for="exampleFormControlInput1" class="form-label">Volume</label>
+                <div class="input-group">
+                  <input type="number" step="any" name="volume" class="form-control form-control-solid @error('volume') is-invalid @enderror"  value="{{ old('volume') ?? $item->volume }}" placeholder="0"/>
+                  <span class="input-group-text border-0" id="basic-addon2">m<sup>3</sup> </span>
                 </div>
-                <div class="col mb-5">
-                  <label for="exampleFormControlInput1" class="form-label">Area</label>
-                  <div class="input-group">
-                    <input type="number" name="area" class="form-control form-control-solid @error('area') is-invalid @enderror"  value="{{ old('area') ?? $item->area }}" placeholder="0"/>
-                    <span class="input-group-text border-0" id="basic-addon2">m<sup>2</sup> </span>
+                @error('volume')
+                  <div class="invalid-feedback">
+                    {{ $message }}
                   </div>
-                  @error('area')
-                    <div class="invalid-feedback">
-                      {{ $message }}
-                    </div>
-                  @enderror
-                </div>
+                @enderror
               </div>
             </div>
             <div class="modal-footer">

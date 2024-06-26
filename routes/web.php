@@ -19,10 +19,12 @@ Route::get('dashboard', function () {
         ]);
 })->name('dashboard'); 
 
-Route::get('/dumping-place', [DumpingPlaceController::class, 'index'])->name('dumping-place');
-Route::post('/dumping-place', [DumpingPlaceController::class, 'store'])->name('dumping-place.store');
-Route::post('/dumping-place/{id}', [DumpingPlaceController::class, 'update'])->name('dumping-place.update');
-Route::get('/dumping-place/{id}', [DumpingPlaceController::class, 'destroy'])->name('dumping-place.destroy');
+Route::prefix('/dumping-place')->group(function () {
+    Route::get('/', [DumpingPlaceController::class, 'index'])->name('dumping-place');
+    Route::post('/', [DumpingPlaceController::class, 'store'])->name('dumping-place.store');
+    Route::post('/{id}', [DumpingPlaceController::class, 'update'])->name('dumping-place.update');
+    Route::get('/{id}', [DumpingPlaceController::class, 'destroy'])->name('dumping-place.destroy');
+});
 
 Route::prefix('/user')->group(function () {
     Route::get('/', [UserController::class, 'user'])->name('user');

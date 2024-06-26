@@ -27,7 +27,7 @@
                           </div>
                       </div>
                       <div class="modal-body">
-                        <div class="mb-3">
+                        <div class="mb-5">
                           <label for="exampleFormControlInput1" class="required form-label">Nama</label>
                           <input type="text" name="name" class="form-control form-control-solid @error('name') is-invalid @enderror"  value="{{ old('name') }}" placeholder="Nama" required/>
                           @error('name')
@@ -36,7 +36,7 @@
                             </div>
                           @enderror
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-5">
                           <label for="exampleFormControlInput1" class="required form-label">Email</label>
                           <input type="email" name="email" class="form-control form-control-solid @error('email') is-invalid @enderror"  value="{{ old('email') }}" placeholder="Email" required/>
                           @error('email')
@@ -45,7 +45,7 @@
                             </div>
                           @enderror
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-5">
                           <label for="exampleFormControlInput1" class="required form-label">Password</label>
                           <input type="password" name="password" class="form-control form-control-solid"  value="{{ old('password') }}" placeholder="********" required/>
                           @error('password')
@@ -77,7 +77,7 @@
               <tbody>
                 @foreach ($user as $item)     
                   <tr>
-                    <td class="d-flex align-items-center">
+                    <td class="d-flex align-items-center min-w-150px">
                       <div class="symbol-group symbol-hover me-3">
                         <div class="symbol symbol-45px symbol-circle" data-bs-toggle="tooltip" title="{{ $item->name }}">
                           <img src=" https://ui-avatars.com/api/?background=F9F9F9&color=080655&bold=true&name={{ $item->name }}" alt="">
@@ -88,7 +88,7 @@
                       </div>
                     </td>
                     <td>
-                      <span class="text-muted fs-7">{{ $item->email }}</span>
+                      <span class="">{{ $item->email }}</span>
                     </td>
                     <td class="text-end">
                       <a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -133,7 +133,7 @@
                 </div>
             </div>
             <div class="modal-body">
-              <div class="mb-3">
+              <div class="mb-5">
                 <label for="exampleFormControlInput1" class="required form-label">Nama</label>
                 <input type="text" name="name" class="form-control form-control-solid @error('name') is-invalid @enderror"  value="{{ $item->name }}" placeholder="Nama" required/>
                 @error('name')
@@ -142,7 +142,7 @@
                   </div>
                 @enderror
               </div>
-              <div class="mb-3">
+              <div class="mb-5">
                 <label for="exampleFormControlInput1" class="required form-label">Email</label>
                 <input type="email" name="email" class="form-control form-control-solid @error('email') is-invalid @enderror"  value="{{ $item->email }}" placeholder="Email" required/>
                 @error('email')
@@ -151,7 +151,7 @@
                   </div>
                 @enderror
               </div>
-              <div class="mb-3">
+              <div class="mb-5">
                 <label for="exampleFormControlInput1" class="form-label">Password</label>
                 <input type="password" name="password" class="form-control form-control-solid"  value="{{ old('password') }}" placeholder="********" />
                 @error('password')
