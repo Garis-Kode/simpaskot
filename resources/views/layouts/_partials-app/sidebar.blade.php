@@ -67,7 +67,7 @@
           </a>
         </div>
 
-        <div class="menu-item @if ($title == 'route') here @endif">
+        <div class="menu-item @if ($title == 'Route') here @endif">
           <a class="menu-link" href="{{ route('route') }}">
             <span class="menu-icon">
               <i class="ki-duotone ki-map fs-2">

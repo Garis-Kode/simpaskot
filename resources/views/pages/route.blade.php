@@ -8,8 +8,8 @@
         <div class="card-header align-items-center py-5 gap-2 gap-md-5">
           <div class="card-title">
             <h3 class="card-title align-items-start flex-column">
-              <span class="card-label fw-bold fs-3 mb-1">Truck</span>
-              <span class="text-muted fw-semibold fs-7">Garbage Truck</span>              
+              <span class="card-label fw-bold fs-3 mb-1">Route</span>
+              <span class="text-muted fw-semibold fs-7">Route Location</span>              
             </h3>
           </div>
           <div class="card-toolbar">
@@ -18,44 +18,49 @@
             </button>
             <div class="modal fade" tabindex="-1" id="add">
               <div class="modal-dialog">
-                  <form method="POST" action="{{ route('garbage-truck.store') }}" class="modal-content">
+                  <form method="POST" action="{{ route('route.store') }}" class="modal-content">
                     @csrf
                       <div class="modal-header">
-                          <h3 class="modal-title">Add new truck</h3>
+                          <h3 class="modal-title">Add new route</h3>
                           <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
                               <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
                           </div>
                       </div>
                       <div class="modal-body">
                         <div class="mb-5">
-                          <label for="exampleFormControlInput1" class="required form-label">Type</label>
-                          <select class="form-select form-select-solid  @error('type') is-invalid @enderror" name="type" aria-label="Select example">
-                              <option value="">Choose type</option>
-                              <option value="Dump Truck (Besar)" @if (old('type') == 'Dump Truck (Besar)') selected @endif>Dump Truck (Besar)</option>
-                              <option value="Dump Truck (Kecil)" @if (old('type') == 'Dump Truck (Kecil)') selected @endif>Dump Truck (Kecil)</option>
+                          <label for="exampleFormControlInput1" class="required form-label">Route Name</label>
+                          <input type="text" name="name" class="form-control form-control-solid @error('name') is-invalid @enderror"  value="{{ old('name') }}" placeholder="Route Name" required/>
+                          @error('name')
+                            <div class="invalid-feedback">
+                              {{ $message }}
+                            </div>
+                          @enderror
+                        </div>
+                        <div class="mb-5">
+                          <label for="exampleFormControlInput1" class="required form-label">Garbage Truck</label>
+                          <select class="form-select form-select-solid  @error('truck') is-invalid @enderror" name="truck" aria-label="Select example" required>
+                              <option value="">Choose Truck</option>
+                              @foreach ($garbageTruck as $item)
+                                <option option value="{{ $item->id }}" @if (old('truck') == $item->id) selected @endif>{{ $item->driver_name }} ({{ $item->license_plate }})</option>
+                              @endforeach
                           </select>
-                          @error('type')
+                          @error('truck')
                             <div class="invalid-feedback">
                               {{ $message }}
                             </div>
                           @enderror
                         </div>
                         <div class="mb-5">
-                          <label for="exampleFormControlInput1" class="required form-label">License Plate</label>
-                          <input type="text" name="plate" class="form-control form-control-solid @error('plate') is-invalid @enderror"  value="{{ old('plate') }}" placeholder="License Plate" required/>
-                          @error('plate')
-                            <div class="invalid-feedback">
-                              {{ $message }}
-                            </div>
-                          @enderror
-                        </div>
-                        <div class="mb-5">
-                          <label for="exampleFormControlInput1" class="required form-label">Driver Name</label>
-                          <input type="text" name="driver" class="form-control form-control-solid @error('driver') is-invalid @enderror"  value="{{ old('driver') }}" placeholder="Driver Name" required/>
-                          @error('driver')
-                            <div class="invalid-feedback">
-                              {{ $message }}
-                            </div>
+                          <label for="exampleFormControlInput1" class="required form-label">Location</label>
+                          <select class="form-select form-select-solid" data-control="select2" data-close-on-select="false" data-placeholder="Select an option" data-allow-clear="true" multiple="multiple" name="location[]" required>
+                              @foreach ($dumpingPlace as $item)
+                                  <option value="{{ $item->id }}">{{ $item->name }}</option>
+                              @endforeach
+                          </select>
+                          @error('location')
+                              <div class="invalid-feedback">
+                                  {{ $message }}
+                              </div>
                           @enderror
                         </div>
                       </div>
@@ -73,18 +78,22 @@
             <table id="kt_datatable_horizontal_scroll" class="table table-row-dashed gy-5 fs-6">
               <thead>
                 <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
-                  <th class="min-w-150px">License Plate</th>
-                  <th class="min-w-150px">Driver Name</th>
-                  <th class="min-w-150px">Type</th>
+                  <th class="min-w-100px">Name</th>
+                  <th class="min-w-150px">Truck</th>
+                  <th class="min-w-200px">Location</th>
                   <th class="min-w-50px text-end">action</th>
                 </tr>
               </thead>
               <tbody>
                 @foreach ($data as $item)
                   <tr>
-                    <td>{{ $item->license_plate }}</td>
-                    <td>{{ $item->driver_name }}</td>
-                    <td>{{ $item->type }}</td>
+                    <td>{{ $item->name }}</td>
+                    <td>{{ $item->garbageTruck->driver_name }} ({{ $item->garbageTruck->license_plate }})</td>
+                    <td>
+                      @foreach ($item->location as $location)
+                        {{ $location->dumpingPlace->name }},
+                      @endforeach
+                    </td>
                     <td class="text-end">
                       <a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                         Actions
@@ -102,7 +111,7 @@
                           <a href="#" data-bs-toggle="modal" data-bs-target="#edit{{$item->id}}" class="menu-link px-3">Edit</a>
                         </div>
                         <div class="menu-item px-3">
-                          <a id="{{ route('garbage-truck.destroy', $item->id) }}" class="menu-link px-3 btn-del">Delete</a>
+                          <a id="{{ route('route.destroy', $item->id) }}" class="menu-link px-3 btn-del">Delete</a>
                         </div>
                       </div>
                     </td>
@@ -119,44 +128,49 @@
   @foreach ($data as $item)     
   <div class="modal fade" tabindex="-1" id="edit{{$item->id}}">
     <div class="modal-dialog">
-        <form method="POST" action="{{ route('garbage-truck.update', $item->id) }}" class="modal-content">
+        <form method="POST" action="{{ route('route.update', $item->id) }}" class="modal-content">
           @csrf
             <div class="modal-header">
-                <h3 class="modal-title">Edit truck</h3>
+                <h3 class="modal-title">Edit Route</h3>
                 <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
                     <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
                 </div>
             </div>
             <div class="modal-body">
               <div class="mb-5">
-                <label for="exampleFormControlInput1" class="required form-label">Type</label>
-                <select class="form-select form-select-solid  @error('type') is-invalid @enderror" name="type" aria-label="Select example">
-                    <option value="">Choose type</option>
-                    <option value="Dump Truck (Besar)" @if ($item->type == 'Dump Truck (Besar)') selected @endif>Dump Truck (Besar)</option>
-                    <option value="Dump Truck (Kecil)" @if ($item->type == 'Dump Truck (Kecil)') selected @endif>Dump Truck (Kecil)</option>
+                <label for="exampleFormControlInput1" class="required form-label">Route Name</label>
+                <input type="text" name="name" class="form-control form-control-solid @error('name') is-invalid @enderror"  value="{{ old('name') ?? $item->name }}" placeholder="Route Name" required/>
+                @error('name')
+                  <div class="invalid-feedback">
+                    {{ $message }}
+                  </div>
+                @enderror
+              </div>
+              <div class="mb-5">
+                <label for="exampleFormControlInput1" class="required form-label">Garbage Truck</label>
+                <select class="form-select form-select-solid  @error('truck') is-invalid @enderror" name="truck" aria-label="Select example">
+                  <option value="">Choose Truck</option>
+                  @foreach ($garbageTruck as $truck)
+                    <option option value="{{ $truck->id }}" @if ( old('truck') ?? $item->garbage_truck_id == $truck->id) selected @endif>{{ $truck->driver_name }} ({{ $truck->license_plate }})</option>
+                  @endforeach
                 </select>
-                @error('type')
+                @error('truck')
                   <div class="invalid-feedback">
                     {{ $message }}
                   </div>
                 @enderror
               </div>
               <div class="mb-5">
-                <label for="exampleFormControlInput1" class="required form-label">License Plate</label>
-                <input type="text" name="plate" class="form-control form-control-solid @error('plate') is-invalid @enderror"  value="{{ old('plate') ?? $item->plate }}" placeholder="License Plate" required/>
-                @error('plate')
-                  <div class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                @enderror
-              </div>
-              <div class="mb-5">
-                <label for="exampleFormControlInput1" class="required form-label">Driver Name</label>
-                <input type="text" name="driver" class="form-control form-control-solid @error('driver') is-invalid @enderror"  value="{{ old('driver') ?? $item->driver }}" placeholder="Driver Name" required/>
-                @error('driver')
-                  <div class="invalid-feedback">
-                    {{ $message }}
-                  </div>
+                <label for="exampleFormControlInput1" class="required form-label">Location</label>
+                <select class="form-select form-select-solid" data-control="select2" data-close-on-select="false" data-placeholder="Select an option" data-allow-clear="true" multiple="multiple" name="location[]" required>
+                    @foreach ($dumpingPlace as $place)
+                        <option value="{{ $place->id }}" @if(in_array($place->id, $item->location->pluck('dumping_place_id')->toArray())) selected @endif>{{ $place->name }}</option>
+                    @endforeach
+                </select>
+                @error('location')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
                 @enderror
               </div>
             </div>

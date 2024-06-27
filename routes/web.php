@@ -41,6 +41,7 @@ Route::prefix('/garbage-truck')->group(function () {
 Route::prefix('/route')->group(function () {
     Route::get('/', [RouteController::class, 'index'])->name('route');
     Route::post('/', [RouteController::class, 'store'])->name('route.store');
+    Route::post('/{id}', [RouteController::class, 'update'])->name('route.update');
     Route::get('/{id}', [RouteController::class, 'destroy'])->name('route.destroy');
 })->middleware('auth');
 
