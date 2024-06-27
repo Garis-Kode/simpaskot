@@ -52,8 +52,8 @@
           </a>
         </div>
 
-        <div class="menu-item">
-          <a class="menu-link" href="#">
+        <div class="menu-item @if ($title == 'Garbage Truck') here @endif">
+          <a class="menu-link" href="{{ route('garbage-truck') }}">
             <span class="menu-icon">
               <i class="ki-duotone ki-truck fs-2">
                 <span class="path1"></span>

@@ -8,8 +8,8 @@
         <div class="card-header align-items-center py-5 gap-2 gap-md-5">
           <div class="card-title">
             <h3 class="card-title align-items-start flex-column">
-              <span class="card-label fw-bold fs-3 mb-1">Place</span>
-              <span class="text-muted fw-semibold fs-7">Dumping Place</span>              
+              <span class="card-label fw-bold fs-3 mb-1">Truck</span>
+              <span class="text-muted fw-semibold fs-7">Garbage Truck</span>              
             </h3>
           </div>
           <div class="card-toolbar">
@@ -18,7 +18,7 @@
             </button>
             <div class="modal fade" tabindex="-1" id="add">
               <div class="modal-dialog">
-                  <form method="POST" action="{{ route('dumping-place.store') }}" class="modal-content">
+                  <form method="POST" action="{{ route('garbage-truck.store') }}" class="modal-content">
                     @csrf
                       <div class="modal-header">
                           <h3 class="modal-title">Add new place</h3>
@@ -31,8 +31,8 @@
                           <label for="exampleFormControlInput1" class="required form-label">Type</label>
                           <select class="form-select form-select-solid  @error('type') is-invalid @enderror" name="type" aria-label="Select example">
                               <option value="">Choose type</option>
-                              <option value="TPS" @if (old('type') == 'TPS') selected @endif>TPS</option>
-                              <option value="TPA" @if (old('type') == 'TPA') selected @endif>TPA</option>
+                              <option value="Dump Truck (Besar)" @if (old('type') == 'Dump Truck (Besar)') selected @endif>Dump Truck (Besar)</option>
+                              <option value="Dump Truck (Kecil)" @if (old('type') == 'Dump Truck (Kecil)') selected @endif>Dump Truck (Kecil)</option>
                           </select>
                           @error('type')
                             <div class="invalid-feedback">
@@ -41,48 +41,18 @@
                           @enderror
                         </div>
                         <div class="mb-5">
-                          <label for="exampleFormControlInput1" class="required form-label">Name</label>
-                          <input type="text" name="name" class="form-control form-control-solid @error('name') is-invalid @enderror"  value="{{ old('name') }}" placeholder="Place name" required/>
-                          @error('name')
+                          <label for="exampleFormControlInput1" class="required form-label">License Plate</label>
+                          <input type="text" name="plate" class="form-control form-control-solid @error('plate') is-invalid @enderror"  value="{{ old('plate') }}" placeholder="License Plate" required/>
+                          @error('plate')
                             <div class="invalid-feedback">
                               {{ $message }}
                             </div>
                           @enderror
                         </div>
                         <div class="mb-5">
-                          <label for="exampleFormControlInput1" class="required form-label">Address</label>
-                          <input type="text" name="address" class="form-control form-control-solid @error('address') is-invalid @enderror"  value="{{ old('address') }}" placeholder="Address" required/>
-                          @error('address')
-                            <div class="invalid-feedback">
-                              {{ $message }}
-                            </div>
-                          @enderror
-                        </div>
-                        <div class="mb-5">
-                          <label for="exampleFormControlInput1" class="required form-label">Latitude</label>
-                          <input type="number" step="any" name="lat" class="form-control form-control-solid @error('lat') is-invalid @enderror"  value="{{ old('lat') }}" placeholder="Latitude" required/>
-                          @error('lat')
-                            <div class="invalid-feedback">
-                              {{ $message }}
-                            </div>
-                          @enderror
-                        </div>
-                        <div class="mb-5">
-                          <label for="exampleFormControlInput1" class="required form-label">Logitude</label>
-                          <input type="number" step="any" name="long" class="form-control form-control-solid @error('long') is-invalid @enderror"  value="{{ old('long') }}" placeholder="Logitude" required/>
-                          @error('long')
-                            <div class="invalid-feedback">
-                              {{ $message }}
-                            </div>
-                          @enderror
-                        </div>
-                        <div class="mb-5">
-                          <label for="exampleFormControlInput1" class="form-label">Volume</label>
-                          <div class="input-group">
-                            <input type="number" step="any" name="volume" class="form-control form-control-solid @error('volume') is-invalid @enderror"  value="{{ old('volume') }}" placeholder="0"/>
-                            <span class="input-group-text border-0" id="basic-addon2">m<sup>3</sup> </span>
-                          </div>
-                          @error('volume')
+                          <label for="exampleFormControlInput1" class="required form-label">Driver Name</label>
+                          <input type="text" name="driver" class="form-control form-control-solid @error('driver') is-invalid @enderror"  value="{{ old('driver') }}" placeholder="Driver Name" required/>
+                          @error('driver')
                             <div class="invalid-feedback">
                               {{ $message }}
                             </div>
@@ -103,24 +73,18 @@
             <table id="kt_datatable_horizontal_scroll" class="table table-row-dashed gy-5 fs-6">
               <thead>
                 <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
-                  <th class="min-w-150px">Name</th>
-                  <th class="min-w-50px">Type</th>
-                  <th class="min-w-200px">Address</th>
-                  <th class="min-w-100px">Latitude</th>
-                  <th class="min-w-100px">Logitude</th>
-                  <th class="min-w-50px">Volume</th>
+                  <th class="min-w-150px">License Plate</th>
+                  <th class="min-w-150px">Driver Name</th>
+                  <th class="min-w-150px">Type</th>
                   <th class="min-w-50px text-end">action</th>
                 </tr>
               </thead>
               <tbody>
                 @foreach ($data as $item)
                   <tr>
-                    <td>{{ $item->name }}</td>
+                    <td>{{ $item->license_plate }}</td>
+                    <td>{{ $item->driver_name }}</td>
                     <td>{{ $item->type }}</td>
-                    <td>{{ $item->address }}</td>
-                    <td>{{ $item->latitude }}</td>
-                    <td>{{ $item->longitude }}</td>
-                    <td>{{ $item->volume }} m<sup>3</sup> </td>
                     <td class="text-end">
                       <a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                         Actions
@@ -138,7 +102,7 @@
                           <a href="#" data-bs-toggle="modal" data-bs-target="#edit{{$item->id}}" class="menu-link px-3">Edit</a>
                         </div>
                         <div class="menu-item px-3">
-                          <a id="{{ route('dumping-place.destroy', $item->id) }}" class="menu-link px-3 btn-del">Delete</a>
+                          <a id="{{ route('garbage-truck.destroy', $item->id) }}" class="menu-link px-3 btn-del">Delete</a>
                         </div>
                       </div>
                     </td>
@@ -155,7 +119,7 @@
   @foreach ($data as $item)     
   <div class="modal fade" tabindex="-1" id="edit{{$item->id}}">
     <div class="modal-dialog">
-        <form method="POST" action="{{ route('dumping-place.update', $item->id) }}" class="modal-content">
+        <form method="POST" action="{{ route('garbage-truck.update', $item->id) }}" class="modal-content">
           @csrf
             <div class="modal-header">
                 <h3 class="modal-title">Edit Place</h3>
@@ -168,8 +132,8 @@
                 <label for="exampleFormControlInput1" class="required form-label">Type</label>
                 <select class="form-select form-select-solid  @error('type') is-invalid @enderror" name="type" aria-label="Select example">
                     <option value="">Choose type</option>
-                    <option value="TPS" @if ($item->type == 'TPS') selected @endif>TPS</option>
-                    <option value="TPA" @if ($item->type == 'TPA') selected @endif>TPA</option>
+                    <option value="Dump Truck (Besar)" @if ($item->type == 'Dump Truck (Besar)') selected @endif>Dump Truck (Besar)</option>
+                    <option value="Dump Truck (Kecil)" @if ($item->type == 'Dump Truck (Kecil)') selected @endif>Dump Truck (Kecil)</option>
                 </select>
                 @error('type')
                   <div class="invalid-feedback">
@@ -178,48 +142,18 @@
                 @enderror
               </div>
               <div class="mb-5">
-                <label for="exampleFormControlInput1" class="required form-label">Name</label>
-                <input type="text" name="name" class="form-control form-control-solid @error('name') is-invalid @enderror"  value="{{ old('name') ?? $item->name }}" placeholder="Place name" required/>
-                @error('name')
+                <label for="exampleFormControlInput1" class="required form-label">License Plate</label>
+                <input type="text" name="plate" class="form-control form-control-solid @error('plate') is-invalid @enderror"  value="{{ old('plate') ?? $item->plate }}" placeholder="License Plate" required/>
+                @error('plate')
                   <div class="invalid-feedback">
                     {{ $message }}
                   </div>
                 @enderror
               </div>
               <div class="mb-5">
-                <label for="exampleFormControlInput1" class="required form-label">Address</label>
-                <input type="text" name="address" class="form-control form-control-solid @error('address') is-invalid @enderror"  value="{{ old('address') ?? $item->address }}" placeholder="Address" required/>
-                @error('address')
-                  <div class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                @enderror
-              </div>
-              <div class="mb-5">
-                <label for="exampleFormControlInput1" class="required form-label">Latitude</label>
-                <input type="number" step="any" name="lat" class="form-control form-control-solid @error('lat') is-invalid @enderror"  value="{{ old('lat') ?? $item->latitude }}" placeholder="Latitude" required/>
-                @error('lat')
-                  <div class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                @enderror
-              </div>
-              <div class="mb-5">
-                <label for="exampleFormControlInput1" class="required form-label">Logitude</label>
-                <input type="number" step="any" name="long" class="form-control form-control-solid @error('long') is-invalid @enderror"  value="{{ old('long') ?? $item->longitude }}" placeholder="Logitude" required/>
-                @error('long')
-                  <div class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                @enderror
-              </div>
-              <div class="mb-5">
-                <label for="exampleFormControlInput1" class="form-label">Volume</label>
-                <div class="input-group">
-                  <input type="number" step="any" name="volume" class="form-control form-control-solid @error('volume') is-invalid @enderror"  value="{{ old('volume') ?? $item->volume }}" placeholder="0"/>
-                  <span class="input-group-text border-0" id="basic-addon2">m<sup>3</sup> </span>
-                </div>
-                @error('volume')
+                <label for="exampleFormControlInput1" class="required form-label">Driver Name</label>
+                <input type="text" name="driver" class="form-control form-control-solid @error('driver') is-invalid @enderror"  value="{{ old('driver') ?? $item->driver }}" placeholder="Driver Name" required/>
+                @error('driver')
                   <div class="invalid-feedback">
                     {{ $message }}
                   </div>

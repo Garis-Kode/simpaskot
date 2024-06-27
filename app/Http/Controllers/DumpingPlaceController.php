@@ -12,7 +12,7 @@ class DumpingPlaceController extends Controller
         $data = [
             'title' => 'Dumping Place',
             'subTitle' => null,
-            'place' => DumpingPlace::all()
+            'data' => DumpingPlace::all()
         ];
         return view('pages.dumping_place', $data);
     }
