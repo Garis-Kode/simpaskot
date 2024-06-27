@@ -67,6 +67,19 @@
           </a>
         </div>
 
+        <div class="menu-item @if ($title == 'route') here @endif">
+          <a class="menu-link" href="{{ route('route') }}">
+            <span class="menu-icon">
+              <i class="ki-duotone ki-map fs-2">
+                <span class="path1"></span>
+                <span class="path2"></span>
+                <span class="path3"></span>
+              </i>
+            </span>
+            <span class="menu-title">Route</span>
+          </a>
+        </div>
+
         <div class="menu-item @if ($title == 'User Management') here @endif">
           <a class="menu-link" href="{{ route('user') }}">
             <span class="menu-icon">

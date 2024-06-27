@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DumpingPlaceController;
 use App\Http\Controllers\GarbageTruckController;
+use App\Http\Controllers\RouteController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -20,7 +21,6 @@ Route::get('dashboard', function () {
     return view('dashboard', [
         'title' => 'Dashboard',
         'subTitle' => null,
-        'page_id' => 7,
         ]);
 })->name('dashboard'); 
 
@@ -36,6 +36,12 @@ Route::prefix('/garbage-truck')->group(function () {
     Route::post('/', [GarbageTruckController::class, 'store'])->name('garbage-truck.store');
     Route::post('/{id}', [GarbageTruckController::class, 'update'])->name('garbage-truck.update');
     Route::get('/{id}', [GarbageTruckController::class, 'destroy'])->name('garbage-truck.destroy');
+})->middleware('auth');
+
+Route::prefix('/route')->group(function () {
+    Route::get('/', [RouteController::class, 'index'])->name('route');
+    Route::post('/', [RouteController::class, 'store'])->name('route.store');
+    Route::get('/{id}', [RouteController::class, 'destroy'])->name('route.destroy');
 })->middleware('auth');
 
 Route::prefix('/user')->group(function () {

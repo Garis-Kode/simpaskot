@@ -11,14 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('garbage_trucks', function (Blueprint $table) {
+        Schema::create('routes', function (Blueprint $table) {
             $table->id();
-            $table->string('license_plate');
-            $table->string('driver_name');
-            $table->enum('type', ['Dump Truck (Besar)', 'Dump Truck (Kecil)']);
+            $table->unsignedBigInteger('garbage_truck_id');
+            $table->string('name');
             $table->timestamps();
 
-            $table->index('license_plate');
+            $table->foreign('garbage_truck_id')
+            ->references('id')
+            ->on('garbage_trucks')
+            ->cascadeOnDelete()
+            ->cascadeOnUpdate();
+
+            $table->index('name');
         });
     }
 
@@ -27,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('garbage_trucks');
+        Schema::dropIfExists('routes');
     }
 };

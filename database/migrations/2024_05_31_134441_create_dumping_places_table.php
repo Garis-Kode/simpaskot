@@ -20,6 +20,10 @@ return new class extends Migration
             $table->float('longitude');
             $table->float('volume')->nullable();
             $table->timestamps();
+
+            $table->index('name');
+            $table->index('latitude');
+            $table->index('longitude');
         });
     }
 
