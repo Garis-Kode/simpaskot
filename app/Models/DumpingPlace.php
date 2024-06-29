@@ -19,6 +19,5 @@ class DumpingPlace extends Model
         'latitude',
         'longitude',
         'volume',
-        'area'
     ];
 }

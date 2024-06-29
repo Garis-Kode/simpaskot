@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('route_id');
             $table->unsignedBigInteger('dumping_place_id');
-            $table->integer('distance')->nullable();
-            $table->integer('time')->nullable();
             $table->timestamps();
 
             $table->foreign('route_id')

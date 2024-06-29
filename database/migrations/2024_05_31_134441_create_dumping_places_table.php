@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('dumping_places', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->enum('type', ['TPA', 'TPS']);
+            $table->enum('type', ['TPA', 'TPS', 'Pool']);
             $table->string('address');
             $table->float('latitude');
             $table->float('longitude');

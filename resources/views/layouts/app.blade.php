@@ -15,6 +15,7 @@
 		<link rel="canonical" href="" />
 
     @include('layouts._partials-app.head')
+    @yield('style')
 
 </head>
 <body>

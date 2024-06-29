@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DumpingPlaceController;
 use App\Http\Controllers\GarbageTruckController;
@@ -17,12 +18,7 @@ Route::prefix('/auth')->middleware(['guest'])->group(function () {
 });
 Route::get('auth/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
-Route::get('dashboard', function () {
-    return view('dashboard', [
-        'title' => 'Dashboard',
-        'subTitle' => null,
-        ]);
-})->name('dashboard'); 
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard'); 
 
 Route::prefix('/dumping-place')->group(function () {
     Route::get('/', [DumpingPlaceController::class, 'index'])->name('dumping-place');

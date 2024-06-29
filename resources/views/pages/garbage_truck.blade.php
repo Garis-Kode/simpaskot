@@ -58,6 +58,19 @@
                             </div>
                           @enderror
                         </div>
+                        <div class="mb-5">
+                          <label for="exampleFormControlInput1" class="form-label">Fuel Price</label>
+                          <div class="input-group">
+                            <span class="input-group-text border-0" id="basic-addon2">Rp.</span>
+                            <input type="number" step="any" name="price" class="form-control form-control-solid @error('price') is-invalid @enderror"  value="{{ old('price') }}" placeholder="0"/>
+                            <span class="input-group-text border-0" id="basic-addon2">/km</span>
+                          </div>
+                          @error('price')
+                            <div class="invalid-feedback">
+                              {{ $message }}
+                            </div>
+                          @enderror
+                        </div>
                       </div>
                       <div class="modal-footer">
                           <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
@@ -75,6 +88,7 @@
                 <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                   <th class="min-w-150px">License Plate</th>
                   <th class="min-w-150px">Driver Name</th>
+                  <th class="min-w-150px">Fuel Price</th>
                   <th class="min-w-150px">Type</th>
                   <th class="min-w-50px text-end">action</th>
                 </tr>
@@ -84,6 +98,7 @@
                   <tr>
                     <td>{{ $item->license_plate }}</td>
                     <td>{{ $item->driver_name }}</td>
+                    <td>Rp.{{ number_format($item->fuel_price) }}/km</td>
                     <td>{{ $item->type }}</td>
                     <td class="text-end">
                       <a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -143,7 +158,7 @@
               </div>
               <div class="mb-5">
                 <label for="exampleFormControlInput1" class="required form-label">License Plate</label>
-                <input type="text" name="plate" class="form-control form-control-solid @error('plate') is-invalid @enderror"  value="{{ old('plate') ?? $item->plate }}" placeholder="License Plate" required/>
+                <input type="text" name="plate" class="form-control form-control-solid @error('plate') is-invalid @enderror"  value="{{ old('plate') ?? $item->license_plate }}" placeholder="License Plate" required/>
                 @error('plate')
                   <div class="invalid-feedback">
                     {{ $message }}
@@ -152,8 +167,21 @@
               </div>
               <div class="mb-5">
                 <label for="exampleFormControlInput1" class="required form-label">Driver Name</label>
-                <input type="text" name="driver" class="form-control form-control-solid @error('driver') is-invalid @enderror"  value="{{ old('driver') ?? $item->driver }}" placeholder="Driver Name" required/>
+                <input type="text" name="driver" class="form-control form-control-solid @error('driver') is-invalid @enderror"  value="{{ old('driver') ?? $item->driver_name }}" placeholder="Driver Name" required/>
                 @error('driver')
+                  <div class="invalid-feedback">
+                    {{ $message }}
+                  </div>
+                @enderror
+              </div>
+              <div class="mb-5">
+                <label for="exampleFormControlInput1" class="form-label">Fuel Price</label>
+                <div class="input-group">
+                  <span class="input-group-text border-0" id="basic-addon2">Rp.</span>
+                  <input type="number" step="any" name="price" class="form-control form-control-solid @error('price') is-invalid @enderror"  value="{{ old('price') ?? $item->fuel_price }}" placeholder="0"/>
+                  <span class="input-group-text border-0" id="basic-addon2">/km</span>
+                </div>
+                @error('price')
                   <div class="invalid-feedback">
                     {{ $message }}
                   </div>

@@ -16,6 +16,7 @@ class GarbageTruck extends Model
         'id',
         'license_plate',
         'driver_name',
+        'fuel_price',
         'type',
     ];
 }

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('license_plate');
             $table->string('driver_name');
+            $table->integer('fuel_price');
             $table->enum('type', ['Dump Truck (Besar)', 'Dump Truck (Kecil)']);
             $table->timestamps();
 

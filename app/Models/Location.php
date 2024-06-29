@@ -19,8 +19,6 @@ class Location extends Model
         'id',
         'route_id',
         'dumping_place_id',
-        'distance',
-        'time',
     ];
 
     public function route(): BelongsTo

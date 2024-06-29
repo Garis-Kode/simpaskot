@@ -17,8 +17,8 @@ class DumpingPlaceSeeder extends Seeder
             'name'=>'TP-001',
             'type'=>'TPS',
             'address'=>'Pasar Pusong Lama',
-            'latitude'=>5.1823,
-            'longitude'=>97.1457,
+            'latitude'=>5.1743300465384925,
+            'longitude'=>97.15182460408074,
             'volume'=>3.5,
         ] );
                     
@@ -26,8 +26,8 @@ class DumpingPlaceSeeder extends Seeder
             'name'=>'TP-002',
             'type'=>'TPS',
             'address'=>'Pasar Impres',
-            'latitude'=>5.1862,
-            'longitude'=>97.1445,
+            'latitude'=>5.183720162178924,
+            'longitude'=>97.14214836388635,
             'volume'=>2.8,
         ] );
                     
@@ -35,8 +35,8 @@ class DumpingPlaceSeeder extends Seeder
             'name'=>'TP-003',
             'type'=>'TPS',
             'address'=>'Samping Terminal Bus',
-            'latitude'=>'5.1901',
-            'longitude'=>'97.1433',
+            'latitude'=>5.178554795779263,
+            'longitude'=>97.13316891317545,
             'volume'=>4.2,
         ] );
                     
@@ -44,8 +44,8 @@ class DumpingPlaceSeeder extends Seeder
             'name'=>'TP-004',
             'type'=>'TPS',
             'address'=>'Pasar Ikan Cunda',
-            'latitude'=>5.1950,
-            'longitude'=>97.1421,
+            'latitude'=>5.175026950896422,
+            'longitude'=>97.13053442811979,
             'volume'=>3,
         ] );
                     
@@ -53,8 +53,8 @@ class DumpingPlaceSeeder extends Seeder
             'name'=>'TP-005',
             'type'=>'TPS',
             'address'=>'Politenik Negri Lhokseumawe',
-            'latitude'=>5.1990,
-            'longitude'=>97.1410,
+            'latitude'=>5.120683767947704,
+            'longitude'=>97.15835556651821,
             'volume'=>2.5,
         ] );
     }

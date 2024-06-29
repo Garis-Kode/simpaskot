@@ -88,7 +88,7 @@
                 @foreach ($data as $item)
                   <tr>
                     <td>{{ $item->name }}</td>
-                    <td>{{ $item->garbageTruck->driver_name }} ({{ $item->garbageTruck->license_plate }})</td>
+                    <td>{{ $item->garbageTruck->license_plate }}</td>
                     <td>
                       @foreach ($item->location as $location)
                         {{ $location->dumpingPlace->name }},

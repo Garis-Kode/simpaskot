@@ -16,6 +16,7 @@ class GarbageTruckSeeder extends Seeder
         GarbageTruck::create( [
             'license_plate'=>'BL 123 ABC',
             'driver_name'=>'John Doe',
+            'fuel_price'=> 1430,
             'type'=>'Dump Truck (Besar)',
         ] );
     }
