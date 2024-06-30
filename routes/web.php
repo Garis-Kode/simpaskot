@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnalystController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
@@ -39,6 +40,10 @@ Route::prefix('/route')->group(function () {
     Route::post('/', [RouteController::class, 'store'])->name('route.store');
     Route::post('/{id}', [RouteController::class, 'update'])->name('route.update');
     Route::get('/{id}', [RouteController::class, 'destroy'])->name('route.destroy');
+})->middleware('auth');
+
+Route::prefix('/analyst')->group(function () {
+    Route::get('/{id}', [AnalystController::class, 'index'])->name('analyst');
 })->middleware('auth');
 
 Route::prefix('/user')->group(function () {

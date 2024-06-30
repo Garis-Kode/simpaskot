@@ -2,7 +2,7 @@
   <div class="container-fluid d-flex flex-column py-3 flex-md-row align-items-center justify-content-between">
     <div class="text-dark order-2 order-md-1">
       <span class="text-muted fw-semibold me-1">2024 &copy;</span>
-      <a href="#" target="_blank" class="text-gray-800 text-hover-primary">SIMPASKOT</a>
+      <a href="#" target="_blank" class="text-gray-800 text-hover-primary">Sistem Informasi Pengelolaan Transportasi Pengangkutan Sampah Kota Lhokseumawe</a>
       <span class="text-muted fw-semibold"></span>
     </div>
     {{-- <div class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">

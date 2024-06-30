@@ -1,14 +1,13 @@
 @extends('layouts.app')
 
 @section('style')
-
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+      #map { height: 400px; }
+  </style>
 @endsection
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<style>
-    #map { height: 400px; }
-</style>
-@section('content')
 
+@section('content')
 <div class="row g-5 g-xl-8">
   {{-- <div class="col-xl-12 mb-2">
     <div class="card border-transparent bgi-no-repeat bgi-position-x-end bgi-size-cover " style="background-size: auto 100%; background-image: url(https://preview.keenthemes.com/metronic8/demo4/assets/media/misc/taieri.svg)">
@@ -67,7 +66,7 @@
                     @endforeach
                   </td>
                   <td class="text-end">
-                    <a href="#" class="btn btn-sm btn-danger btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#analyst{{ $item->id }}" class="btn btn-sm btn-danger btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                       Analysis
                       <span class="svg-icon fs-5 m-0 ps-2">
                         <i class="ki-outline ki-graph-up text-white"></i>
@@ -83,6 +82,71 @@
     </div>
   </div>
 </div>
+
+@foreach ($route as $item)
+  <div class="modal fade" tabindex="-1" id="analyst{{ $item->id }}">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Analisis {{$item->name }}</h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <form action="{{ route('analyst', $item->id) }}" method="GET">
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col mb-5">
+                    <label for="exampleFormControlInput1" class="required form-label">T0</label>
+                    <input type="number" step="any" name="t0" class="form-control form-control-solid @error('t0') is-invalid @enderror"  value="{{ old('t0') }}" placeholder="0" required/>
+                    @error('t0')
+                      <div class="invalid-feedback">
+                        {{ $message }}
+                      </div>
+                    @enderror
+                  </div>
+                  <div class="col mb-5">
+                    <label for="exampleFormControlInput1" class="required form-label">T1</label>
+                    <input type="number" step="any" name="t1" class="form-control form-control-solid @error('t1') is-invalid @enderror"  value="{{ old('t1') }}" placeholder="0" required/>
+                    @error('t1')
+                      <div class="invalid-feedback">
+                        {{ $message }}
+                      </div>
+                    @enderror
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col mb-5">
+                    <label for="exampleFormControlInput1" class="required form-label">Alpha</label>
+                    <input type="number" step="any" name="alpha" class="form-control form-control-solid @error('alpha') is-invalid @enderror"  value="{{ old('alpha') }}" placeholder="0" required/>
+                    @error('alpha')
+                      <div class="invalid-feedback">
+                        {{ $message }}
+                      </div>
+                    @enderror
+                  </div>
+                  <div class="col mb-5">
+                    <label for="exampleFormControlInput1" class="required form-label">Max Iteration</label>
+                    <input type="number" step="any" name="iteration" class="form-control form-control-solid @error('iteration') is-invalid @enderror"  value="{{ old('iteration') }}" placeholder="0" required/>
+                    @error('iteration')
+                      <div class="invalid-feedback">
+                        {{ $message }}
+                      </div>
+                    @enderror
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+
+        </div>
+    </div>
+  </div>
+@endforeach
 
 @endsection
 
