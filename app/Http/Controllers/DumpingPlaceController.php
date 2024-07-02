@@ -20,10 +20,10 @@ class DumpingPlaceController extends Controller
     public function store(Request $request){
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'type' => 'required',
             'address' => 'required',
             'lat' => 'required',
             'long' => 'required',
+            'volume' => 'required',
         ]);
         if ($validator->fails()) {
             return redirect()->route('dumping-place')->with('error', 'error validation')->withInput()->withErrors($validator);
@@ -42,10 +42,10 @@ class DumpingPlaceController extends Controller
     public function update($id, Request $request){
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'type' => 'required',
             'address' => 'required',
             'lat' => 'required',
             'long' => 'required',
+            'volume' => 'required',
         ]);
         if ($validator->fails()) {
             return redirect()->route('dumping-place')->with('error', 'error validation')->withInput()->withErrors($validator);

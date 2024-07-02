@@ -77,16 +77,30 @@
                       <th class="min-w-50px">Name</th>
                       <th class="min-w-50px">Latitude</th>
                       <th class="min-w-50px">Longitude</th>
+                      <th class="min-w-50px">Volume</th>
                     </tr>
                   </thead>
                   <tbody>
+                    <tr>
+                      <td>{{$route->pool->name}}</td>
+                      <td>{{$route->pool->longitude}}</td>
+                      <td>{{$route->pool->latitude}}</td>
+                      <td>-</td>
+                    </tr>
                     @foreach ($route->location as $index => $item)
                       <tr>
                         <td>{{ $item->dumpingPlace->name }}</td>
                         <td>{{ $item->dumpingPlace->latitude }}</td>
                         <td>{{ $item->dumpingPlace->longitude }}</td>
+                        <td>{{ $item->dumpingPlace->volume }}m<sup>3</sup></td>
                       </tr>
                     @endforeach
+                    <tr>
+                      <td>{{$route->landfill->name}}</td>
+                      <td>{{$route->landfill->longitude}}</td>
+                      <td>{{$route->landfill->latitude}}</td>
+                      <td>-</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -127,11 +141,19 @@
                       <td>
                           @foreach ($item['solution'] as $index)
                               @if (!$loop->last)
-                                  {{ $index }} - 
+                                  {{ $index['name'] }} - 
                               @else
-                                  {{ $index }}
+                                  {{ $index['name'] }}
                               @endif
                           @endforeach
+                          <br>
+                          ( @foreach ($item['solution'] as $index)
+                          @if (!$loop->last)
+                              {{ $index['address'] }} - 
+                          @else
+                              {{ $index['address'] }}
+                          @endif
+                      @endforeach )
                       </td>
                       <td>{{ $item['cost'] }}</td>
                       <td>{{ $item['distance'] }}</td>
@@ -159,6 +181,8 @@
           <table class="table table-bordered fs-7">
             <thead>
               <tr class="text-start fw-bold fs-7 gs-0">
+                <th class="min-w-50px">Iteration</th>
+                <th class="min-w-50px">Temperature</th>
                 <th class="min-w-150px">Route</th>
                 <th class="min-w-50px">Cost</th>
                 <th class="min-w-50px">Distance</th>
@@ -167,14 +191,24 @@
             </thead>
             <tbody>
               <tr>
+                <td>{{ $bestIteration }}</td>
+                <td>{{ $bestTemperature }}</td>
                 <td>
                   @foreach ($bestSolution as $index)
                     @if (!$loop->last)
-                        {{ $index }} - 
+                        {{ $index['name'] }} - 
                     @else
-                        {{ $index }}
+                        {{ $index['name'] }}
                     @endif
                 @endforeach
+                <br>
+                (@foreach ($bestSolution as $index)
+                    @if (!$loop->last)
+                        {{ $index['address'] }} - 
+                    @else
+                        {{ $index['address'] }}
+                    @endif
+                @endforeach)
                 </td>
                 <td>Rp. {{ $bestCost }}</td>
                 <td>{{ $totalDistance }} km</td>
@@ -195,7 +229,8 @@
 @section('script')
 <script>
   $("#kt_datatable_horizontal_scroll").DataTable({
-    "scrollX": false
+    "scrollX": false,
+    pageLength : 25,
   });
 </script>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -206,9 +241,9 @@
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
 
-  @foreach ($dumpingPlace as $item) 
-      var marker = L.marker([{{ $item->dumpingPlace->latitude }}, {{ $item->dumpingPlace->longitude }}]).addTo(map);
-      marker.bindPopup("<b>{{ $item->dumpingPlace->name }}</b><br>{{ $item->dumpingPlace->address }}")
+  @foreach ($bestSolution as $item) 
+      var marker = L.marker([{{ $item['latitude'] }}, {{ $item['longitude'] }}]).addTo(map);
+      marker.bindPopup("<b>{{ $item['name'] }}</b><br>{{ $item['address'] }}")
   @endforeach
 </script>
 @endsection

@@ -14,7 +14,7 @@ class LandfillSeeder extends Seeder
     public function run(): void
     {
         Landfill::create( [
-            'name'=>'TPA-1',
+            'name'=>'TPAS',
             'address'=>'TPAS Alue Lim, Lhoksemawe',
             'latitude'=>5.129523361146446,
             'longitude'=>97.1197617856933,

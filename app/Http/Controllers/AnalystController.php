@@ -49,26 +49,74 @@ class AnalystController extends Controller
         return exp(($oldCost - $newCost) / $temperature);
     }
 
+    public function generateRouteWithVolumeConstraints($solution, $points, $volume, $truckVolume)
+    {
+        $routeWithConstraints = ['start'];
+        $currentVolume = 0;
+
+        foreach ($solution as $point) {
+            if ($point == 'start' || $point == 'end') {
+                continue;
+            }
+
+            if ($currentVolume + $volume[$point][0] > $truckVolume) {
+                $routeWithConstraints[] = 'end';
+                $currentVolume = 0;
+            }
+
+            $routeWithConstraints[] = $point;
+            $currentVolume += $volume[$point][0];
+        }
+
+        $routeWithConstraints[] = 'end';
+        return $routeWithConstraints;
+    }
+
     public function index(Request $request, $id)
     {
         $route = Route::findOrFail($id);
         $points = [];
+        $volume = [];
+        $locations = [];
 
         // Add initial fixed point
-        $points['start'] = [5.184861368120089, 97.14215563412252];
+        $start = $route->pool;
+        $points['start'] = [$start->latitude, $start->longitude];
+        $locations['start'] = [
+            'name' => $start->name,
+            'address' => $start->address,
+            'longitude' => $start->longitude,
+            'latitude' => $start->latitude
+        ];
 
         foreach ($route->location as $location) {
             $dumpingPlace = $location->dumpingPlace;
             $latitude = $dumpingPlace->latitude;
             $longitude = $dumpingPlace->longitude;
+            $volumePoint = $dumpingPlace->volume;
             $key = $dumpingPlace->name;
             $points[$key] = [$latitude, $longitude];
+            $volume[$key] = [$volumePoint];
+            $locations[$key] = [
+                'name' => $dumpingPlace->name,
+                'address' => $dumpingPlace->address,
+                'longitude' => $longitude,
+                'latitude' => $latitude
+            ];
         }
 
         // Add final fixed point
-        $points['end'] = [5.129523361146446, 97.1197617856933];
+        $end = $route->landFill;
+        $points['end'] = [$end->latitude, $end->longitude];
+        $locations['end'] = [
+            'name' => $end->name,
+            'address' => $end->address,
+            'longitude' => $end->longitude,
+            'latitude' => $end->latitude
+        ];
 
         $fuelPricePerKm = $route->garbageTruck->fuel_price;
+        $truckVolume = $route->garbageTruck->volume;
 
         $T0 = $request->query('t0');
         $T1 = $request->query('t1');
@@ -81,8 +129,11 @@ class AnalystController extends Controller
         $start = array_shift($currentSolution);
         $end = array_pop($currentSolution);
         shuffle($currentSolution);
-        array_unshift($currentSolution, $start);
-        array_push($currentSolution, $end);
+        array_unshift($currentSolution, 'start');
+        array_push($currentSolution, 'end');
+
+        // Generate initial route with volume constraints
+        $currentSolution = $this->generateRouteWithVolumeConstraints($currentSolution, $points, $volume, $truckVolume);
 
         $totalDistance = 0;
         $currentCost = $this->calculateTotalCost($currentSolution, $points, $fuelPricePerKm, $totalDistance);
@@ -100,6 +151,7 @@ class AnalystController extends Controller
                 $startTime = microtime(true); // Start time
                 
                 $neighborSolution = $this->getNeighbor($currentSolution);
+                $neighborSolution = $this->generateRouteWithVolumeConstraints($neighborSolution, $points, $volume, $truckVolume);
                 $neighborCost = $this->calculateTotalCost($neighborSolution, $points, $fuelPricePerKm, $neighborDistance);
 
                 if ($this->acceptanceProbability($currentCost, $neighborCost, $temperature) > mt_rand() / mt_getrandmax()) {
@@ -123,10 +175,14 @@ class AnalystController extends Controller
                 $truckTimeHours = $totalDistance / $this->truckSpeed; // Time in hours
                 $truckTimeMinutes = $truckTimeHours * 60; // Time in minutes
 
+                $solutionDetails = array_map(function($point) use ($locations) {
+                    return $locations[$point];
+                }, $currentSolution);
+
                 $iterationsData[] = [
                     'iteration' => $i,
                     'temperature' => $temperature,
-                    'solution' => $currentSolution,
+                    'solution' => $solutionDetails,
                     'cost' => number_format($currentCost, 2),
                     'distance' => number_format($totalDistance, 2),
                     'iterationTime' => number_format($iterationTimeInMinutes, 6), // Added iteration time in minutes
@@ -142,6 +198,11 @@ class AnalystController extends Controller
         $seconds = floor(($totalTimeMinutes - $minutes) * 60);
         $formattedTime = sprintf('%d mins %d sec', $minutes, $seconds);
 
+        // Extract detailed information for the best solution
+        $bestSolutionDetails = array_map(function($point) use ($locations) {
+            return $locations[$point];
+        }, $bestSolution);
+
         $data = [
             'title' => 'Analysis',
             'subTitle' => $route->name,
@@ -150,7 +211,7 @@ class AnalystController extends Controller
             't1' => $T1,
             'alpha' => $alpha,
             'iteration' => $maxIterations,
-            'bestSolution' => $bestSolution,
+            'bestSolution' => $bestSolutionDetails,
             'bestCost' => number_format($bestCost, 2),
             'bestIteration' => $bestIteration,
             'bestTemperature' => $bestTemperature,
@@ -158,7 +219,7 @@ class AnalystController extends Controller
             'totalTime' => $formattedTime,
             'iterations' => $iterationsData
         ];  
-        return response()->json($data);
+        // return response()->json($data);
         return view('pages.analyst', $data);
     }   
 }
