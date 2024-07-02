@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Pool;
+use App\Models\Landfill;
 use App\Models\Location;
 use App\Models\GarbageTruck;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +20,8 @@ class Route extends Model
     protected $fillable = [
         'id',
         'garbage_truck_id',
+        'pool_id',
+        'landfill_id',
         'name',
     ];
 
@@ -29,5 +33,15 @@ class Route extends Model
     public function location()
     {
         return $this->hasMany(Location::class);
+    }
+
+    public function pool(): BelongsTo
+    {
+        return $this->belongsTo(Pool::class);
+    }
+
+    public function landfill(): BelongsTo
+    {
+        return $this->belongsTo(Landfill::class);
     }
 }

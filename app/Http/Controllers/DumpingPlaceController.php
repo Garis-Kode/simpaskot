@@ -32,7 +32,6 @@ class DumpingPlaceController extends Controller
         $data = New DumpingPlace();
         $data->name = $request->input('name');
         $data->address = $request->input('address');
-        $data->type = $request->input('type');
         $data->latitude = $request->input('lat');
         $data->longitude = $request->input('long');
         $data->volume = $request->input('volume');
@@ -55,7 +54,6 @@ class DumpingPlaceController extends Controller
         $data = DumpingPlace::findOrFail($id);
         $data->name = $request->input('name');
         $data->address = $request->input('address');
-        $data->type = $request->input('type');
         $data->latitude = $request->input('lat');
         $data->longitude = $request->input('long');
         $data->volume = $request->input('volume');

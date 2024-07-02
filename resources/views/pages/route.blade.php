@@ -51,6 +51,20 @@
                           @enderror
                         </div>
                         <div class="mb-5">
+                          <label for="exampleFormControlInput1" class="required form-label">Start Route</label>
+                          <select class="form-select form-select-solid  @error('pool') is-invalid @enderror" name="pool" aria-label="Select example" required>
+                              <option value="">Choose pool</option>
+                              @foreach ($pool as $item)
+                                <option option value="{{ $item->id }}" @if (old('pool') == $item->id) selected @endif>{{ $item->name }} ({{ $item->address }})</option>
+                              @endforeach
+                          </select>
+                          @error('pool')
+                            <div class="invalid-feedback">
+                              {{ $message }}
+                            </div>
+                          @enderror
+                        </div>
+                        <div class="mb-5">
                           <label for="exampleFormControlInput1" class="required form-label">Location</label>
                           <select class="form-select form-select-solid" data-control="select2" data-close-on-select="false" data-placeholder="Select an option" data-allow-clear="true" multiple="multiple" name="location[]" required>
                               @foreach ($dumpingPlace as $item)
@@ -61,6 +75,20 @@
                               <div class="invalid-feedback">
                                   {{ $message }}
                               </div>
+                          @enderror
+                        </div>
+                        <div class="mb-5">
+                          <label for="exampleFormControlInput1" class="required form-label">End Route</label>
+                          <select class="form-select form-select-solid  @error('landfill') is-invalid @enderror" name="landfill" aria-label="Select example" required>
+                              <option value="">Choose landfill</option>
+                              @foreach ($landfill as $item)
+                                <option option value="{{ $item->id }}" @if (old('landfill') == $item->id) selected @endif>{{ $item->name }} ({{ $item->address }})</option>
+                              @endforeach
+                          </select>
+                          @error('landfill')
+                            <div class="invalid-feedback">
+                              {{ $message }}
+                            </div>
                           @enderror
                         </div>
                       </div>
@@ -80,7 +108,9 @@
                 <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                   <th class="min-w-100px">Name</th>
                   <th class="min-w-150px">Truck</th>
+                  <th class="min-w-50px"> Start Route</th>
                   <th class="min-w-200px">Location</th>
+                  <th class="min-w-50px">End Route</th>
                   <th class="min-w-50px text-end">action</th>
                 </tr>
               </thead>
@@ -89,11 +119,17 @@
                   <tr>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->garbageTruck->license_plate }}</td>
+                    <td>{{ $item->pool->name }} <br>({{ $item->pool->address }}) </td>
                     <td>
                       @foreach ($item->location as $location)
                         {{ $location->dumpingPlace->name }},
                       @endforeach
+                      <br>
+                      (@foreach ($item->location as $location)
+                        {{ $location->dumpingPlace->address }},
+                      @endforeach)
                     </td>
+                    <td>{{ $item->landfill->name }}<br>({{ $item->landfill->address }})</td>
                     <td class="text-end">
                       <a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                         Actions

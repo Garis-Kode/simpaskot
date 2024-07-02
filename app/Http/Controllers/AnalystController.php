@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Route;
-use App\Models\DumpingPlace;
 use Illuminate\Http\Request;
 
 class AnalystController extends Controller
@@ -34,8 +33,8 @@ class AnalystController extends Controller
     public function getNeighbor($solution)
     {
         $newSolution = $solution;
-        $i = array_rand($newSolution);
-        $j = array_rand($newSolution);
+        $i = rand(1, count($newSolution) - 2); // Random index excluding first and last
+        $j = rand(1, count($newSolution) - 2); // Random index excluding first and last
         $temp = $newSolution[$i];
         $newSolution[$i] = $newSolution[$j];
         $newSolution[$j] = $temp;
@@ -54,6 +53,10 @@ class AnalystController extends Controller
     {
         $route = Route::findOrFail($id);
         $points = [];
+
+        // Add initial fixed point
+        $points['start'] = [5.184861368120089, 97.14215563412252];
+
         foreach ($route->location as $location) {
             $dumpingPlace = $location->dumpingPlace;
             $latitude = $dumpingPlace->latitude;
@@ -61,7 +64,10 @@ class AnalystController extends Controller
             $key = $dumpingPlace->name;
             $points[$key] = [$latitude, $longitude];
         }
-        
+
+        // Add final fixed point
+        $points['end'] = [5.129523361146446, 97.1197617856933];
+
         $fuelPricePerKm = $route->garbageTruck->fuel_price;
 
         $T0 = $request->query('t0');
@@ -70,7 +76,14 @@ class AnalystController extends Controller
         $maxIterations = $request->query('iteration');
 
         $currentSolution = array_keys($points);
+
+        // Ensure start and end points are fixed
+        $start = array_shift($currentSolution);
+        $end = array_pop($currentSolution);
         shuffle($currentSolution);
+        array_unshift($currentSolution, $start);
+        array_push($currentSolution, $end);
+
         $totalDistance = 0;
         $currentCost = $this->calculateTotalCost($currentSolution, $points, $fuelPricePerKm, $totalDistance);
 
@@ -143,10 +156,9 @@ class AnalystController extends Controller
             'bestTemperature' => $bestTemperature,
             'totalDistance' => number_format($totalDistance, 2),    
             'totalTime' => $formattedTime,
-            'dumpingPlace' => $route->location,
             'iterations' => $iterationsData
         ];  
-        // return response()->json($data['dumpingPlace']);
+        return response()->json($data);
         return view('pages.analyst', $data);
     }   
 }

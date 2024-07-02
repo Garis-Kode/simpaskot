@@ -15,7 +15,6 @@ class DumpingPlaceSeeder extends Seeder
     {
         DumpingPlace::create( [
             'name'=>'TP-001',
-            'type'=>'TPS',
             'address'=>'Pasar Pusong Lama',
             'latitude'=>5.1743300465384925,
             'longitude'=>97.15182460408074,
@@ -24,7 +23,6 @@ class DumpingPlaceSeeder extends Seeder
                     
         DumpingPlace::create( [
             'name'=>'TP-002',
-            'type'=>'TPS',
             'address'=>'Pasar Impres',
             'latitude'=>5.183720162178924,
             'longitude'=>97.14214836388635,
@@ -33,7 +31,6 @@ class DumpingPlaceSeeder extends Seeder
                     
         DumpingPlace::create( [
             'name'=>'TP-003',
-            'type'=>'TPS',
             'address'=>'Samping Terminal Bus',
             'latitude'=>5.178554795779263,
             'longitude'=>97.13316891317545,
@@ -42,7 +39,6 @@ class DumpingPlaceSeeder extends Seeder
                     
         DumpingPlace::create( [
             'name'=>'TP-004',
-            'type'=>'TPS',
             'address'=>'Pasar Ikan Cunda',
             'latitude'=>5.175026950896422,
             'longitude'=>97.13053442811979,
@@ -51,7 +47,6 @@ class DumpingPlaceSeeder extends Seeder
                     
         DumpingPlace::create( [
             'name'=>'TP-005',
-            'type'=>'TPS',
             'address'=>'Politenik Negri Lhokseumawe',
             'latitude'=>5.120683767947704,
             'longitude'=>97.15835556651821,

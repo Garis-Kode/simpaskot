@@ -28,19 +28,6 @@
                       </div>
                       <div class="modal-body">
                         <div class="mb-5">
-                          <label for="exampleFormControlInput1" class="required form-label">Type</label>
-                          <select class="form-select form-select-solid  @error('type') is-invalid @enderror" name="type" aria-label="Select example">
-                              <option value="">Choose type</option>
-                              <option value="TPS" @if (old('type') == 'TPS') selected @endif>TPS</option>
-                              <option value="TPA" @if (old('type') == 'TPA') selected @endif>TPA</option>
-                          </select>
-                          @error('type')
-                            <div class="invalid-feedback">
-                              {{ $message }}
-                            </div>
-                          @enderror
-                        </div>
-                        <div class="mb-5">
                           <label for="exampleFormControlInput1" class="required form-label">Name</label>
                           <input type="text" name="name" class="form-control form-control-solid @error('name') is-invalid @enderror"  value="{{ old('name') }}" placeholder="Place name" required/>
                           @error('name')
@@ -104,7 +91,6 @@
               <thead>
                 <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                   <th class="min-w-150px">Name</th>
-                  <th class="min-w-50px">Type</th>
                   <th class="min-w-200px">Address</th>
                   <th class="min-w-100px">Latitude</th>
                   <th class="min-w-100px">Logitude</th>
@@ -116,7 +102,6 @@
                 @foreach ($data as $item)
                   <tr>
                     <td>{{ $item->name }}</td>
-                    <td>{{ $item->type }}</td>
                     <td>{{ $item->address }}</td>
                     <td>{{ $item->latitude }}</td>
                     <td>{{ $item->longitude }}</td>
@@ -164,19 +149,6 @@
                 </div>
             </div>
             <div class="modal-body">
-              <div class="mb-5">
-                <label for="exampleFormControlInput1" class="required form-label">Type</label>
-                <select class="form-select form-select-solid  @error('type') is-invalid @enderror" name="type" aria-label="Select example">
-                    <option value="">Choose type</option>
-                    <option value="TPS" @if ($item->type == 'TPS') selected @endif>TPS</option>
-                    <option value="TPA" @if ($item->type == 'TPA') selected @endif>TPA</option>
-                </select>
-                @error('type')
-                  <div class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                @enderror
-              </div>
               <div class="mb-5">
                 <label for="exampleFormControlInput1" class="required form-label">Name</label>
                 <input type="text" name="name" class="form-control form-control-solid @error('name') is-invalid @enderror"  value="{{ old('name') ?? $item->name }}" placeholder="Place name" required/>

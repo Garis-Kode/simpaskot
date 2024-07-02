@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pool;
 use App\Models\Route;
+use App\Models\Landfill;
+use App\Models\Location;
 use App\Models\DumpingPlace;
 use App\Models\GarbageTruck;
-use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,7 +19,9 @@ class RouteController extends Controller
             'subTitle' => null,
             'data' => Route::all(),
             'dumpingPlace' => DumpingPlace::all(),
-            'garbageTruck' => GarbageTruck::all()
+            'garbageTruck' => GarbageTruck::all(),
+            'pool' => Pool::all(),
+            'landfill' => Landfill::all(),
         ];
         return view('pages.route',  $data);
     }
@@ -34,6 +38,8 @@ class RouteController extends Controller
         $data = New Route();
         $data->garbage_truck_id = $request->input('truck');
         $data->name = $request->input('name');
+        $data->pool_id = $request->input('pool');
+        $data->landfill_id = $request->input('landfill');
         $data->save();
 
         foreach ($request->location as  $result) {

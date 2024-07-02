@@ -17,6 +17,7 @@ class GarbageTruckSeeder extends Seeder
             'license_plate'=>'BL 123 ABC',
             'driver_name'=>'John Doe',
             'fuel_price'=> 1430,
+            'volume' => 6,
             'type'=>'Dump Truck (Besar)',
         ] );
     }

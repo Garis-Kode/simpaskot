@@ -15,11 +15,25 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('garbage_truck_id');
             $table->string('name');
+            $table->unsignedBigInteger('pool_id');
+            $table->unsignedBigInteger('landfill_id');
             $table->timestamps();
 
             $table->foreign('garbage_truck_id')
             ->references('id')
             ->on('garbage_trucks')
+            ->cascadeOnDelete()
+            ->cascadeOnUpdate();
+
+            $table->foreign('pool_id')
+            ->references('id')
+            ->on('pools')
+            ->cascadeOnDelete()
+            ->cascadeOnUpdate();
+
+            $table->foreign('landfill_id')
+            ->references('id')
+            ->on('landfills')
             ->cascadeOnDelete()
             ->cascadeOnUpdate();
 

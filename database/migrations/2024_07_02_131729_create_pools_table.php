@@ -11,18 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dumping_places', function (Blueprint $table) {
+        Schema::create('pools', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('address');
             $table->float('latitude');
             $table->float('longitude');
-            $table->float('volume')->nullable();
             $table->timestamps();
-
-            $table->index('name');
-            $table->index('latitude');
-            $table->index('longitude');
         });
     }
 
@@ -31,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dumping_places');
+        Schema::dropIfExists('pools');
     }
 };

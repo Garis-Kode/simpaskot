@@ -21,6 +21,14 @@ Route::get('auth/logout', [AuthController::class, 'logout'])->middleware('auth')
 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard'); 
 
+
+Route::prefix('/pool')->group(function () {
+    Route::get('/', [DumpingPlaceController::class, 'index'])->name('dumping-place');
+    Route::post('/', [DumpingPlaceController::class, 'store'])->name('dumping-place.store');
+    Route::post('/{id}', [DumpingPlaceController::class, 'update'])->name('dumping-place.update');
+    Route::get('/{id}', [DumpingPlaceController::class, 'destroy'])->name('dumping-place.destroy');
+})->middleware('auth');
+
 Route::prefix('/dumping-place')->group(function () {
     Route::get('/', [DumpingPlaceController::class, 'index'])->name('dumping-place');
     Route::post('/', [DumpingPlaceController::class, 'store'])->name('dumping-place.store');
