@@ -53,7 +53,7 @@
                         <div class="mb-5">
                           <label for="exampleFormControlInput1" class="required form-label">Start Route</label>
                           <select class="form-select form-select-solid  @error('pool') is-invalid @enderror" name="pool" aria-label="Select example" required>
-                              <option value="">Choose pool</option>
+                              <option value="">Choose Pool</option>
                               @foreach ($pool as $item)
                                 <option option value="{{ $item->id }}" @if (old('pool') == $item->id) selected @endif>{{ $item->name }} ({{ $item->address }})</option>
                               @endforeach
@@ -68,7 +68,7 @@
                           <label for="exampleFormControlInput1" class="required form-label">Location</label>
                           <select class="form-select form-select-solid" data-control="select2" data-close-on-select="false" data-placeholder="Select an option" data-allow-clear="true" multiple="multiple" name="location[]" required>
                               @foreach ($dumpingPlace as $item)
-                                  <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                  <option value="{{ $item->id }}">{{ $item->name }} ({{ $item->address }})</option>
                               @endforeach
                           </select>
                           @error('location')
@@ -80,7 +80,7 @@
                         <div class="mb-5">
                           <label for="exampleFormControlInput1" class="required form-label">End Route</label>
                           <select class="form-select form-select-solid  @error('landfill') is-invalid @enderror" name="landfill" aria-label="Select example" required>
-                              <option value="">Choose landfill</option>
+                              <option value="">Choose Landfill</option>
                               @foreach ($landfill as $item)
                                 <option option value="{{ $item->id }}" @if (old('landfill') == $item->id) selected @endif>{{ $item->name }} ({{ $item->address }})</option>
                               @endforeach
@@ -199,7 +199,7 @@
               <div class="mb-5">
                 <label for="exampleFormControlInput1" class="required form-label">Start Route</label>
                 <select class="form-select form-select-solid  @error('pool') is-invalid @enderror" name="pool" aria-label="Select example">
-                  <option value="">Choose pool</option>
+                  <option value="">Choose Pool</option>
                   @foreach ($pool as $index)
                     <option option value="{{ $index->id }}" @if ( old('pool') ?? $item->pool_id == $index->id) selected @endif>{{ $index->name }} ({{ $index->address }})</option>
                   @endforeach
@@ -229,7 +229,7 @@
               <div class="mb-5">
                 <label for="exampleFormControlInput1" class="required form-label">Start Route</label>
                 <select class="form-select form-select-solid  @error('landfill') is-invalid @enderror" name="landfill" aria-label="Select example">
-                  <option value="">Choose landfill</option>
+                  <option value="">Choose Landfill</option>
                   @foreach ($landfill as $index)
                     <option option value="{{ $index->id }}" @if ( old('landfill') ?? $item->landfill_id == $index->id) selected @endif>{{ $index->name }} ({{ $index->address }})</option>
                   @endforeach
