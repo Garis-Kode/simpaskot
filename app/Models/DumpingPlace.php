@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Location;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class DumpingPlace extends Model
 {
@@ -20,4 +21,9 @@ class DumpingPlace extends Model
         'longitude',
         'volume',
     ];
+
+    public function location()
+    {
+        return $this->hasMany(Location::class);
+    }
 }

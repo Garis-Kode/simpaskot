@@ -185,9 +185,9 @@
               <div class="mb-5">
                 <label for="exampleFormControlInput1" class="required form-label">Garbage Truck</label>
                 <select class="form-select form-select-solid  @error('truck') is-invalid @enderror" name="truck" aria-label="Select example">
-                  <option value="">Choose Truck</option>
+                  <option option value="{{ $item->garbageTruck->id }}" @if ( old('truck') == $item->garbageTruck->id) selected @endif>{{ $item->garbageTruck->driver_name }} ({{ $item->garbageTruck->license_plate }})</option>
                   @foreach ($garbageTruck as $truck)
-                    <option option value="{{ $truck->id }}" @if ( old('truck') ?? $item->garbage_truck_id == $truck->id) selected @endif>{{ $truck->driver_name }} ({{ $truck->license_plate }})</option>
+                    <option option value="{{ $truck->id }}" @if ( old('truck') == $truck->id) selected @endif>{{ $truck->driver_name }} ({{ $truck->license_plate }})</option>
                   @endforeach
                 </select>
                 @error('truck')
@@ -213,8 +213,11 @@
               <div class="mb-5">
                 <label for="exampleFormControlInput1" class="required form-label">Location</label>
                 <select class="form-select form-select-solid" data-control="select2" data-close-on-select="false" data-placeholder="Select an option" data-allow-clear="true" multiple="multiple" name="location[]" required>
+                    @foreach ($item->location as $place)
+                        <option value="{{ $place->dumpingPlace->id }}" selected>{{ $place->dumpingPlace->name }} ({{ $place->dumpingPlace->address }})</option>
+                    @endforeach
                     @foreach ($dumpingPlace as $place)
-                        <option value="{{ $place->id }}" @if(in_array($place->id, $item->location->pluck('dumping_place_id')->toArray())) selected @endif>{{ $place->name }}</option>
+                        <option value="{{ $place->id }}">{{ $place->name }} ({{ $place->address }})</option>
                     @endforeach
                 </select>
                 @error('location')

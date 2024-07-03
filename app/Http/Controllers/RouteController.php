@@ -18,8 +18,8 @@ class RouteController extends Controller
             'title' => 'Route',
             'subTitle' => null,
             'data' => Route::all(),
-            'dumpingPlace' => DumpingPlace::all(),
-            'garbageTruck' => GarbageTruck::all(),
+            'dumpingPlace' => DumpingPlace::whereDoesntHave('location')->get(),
+            'garbageTruck' => GarbageTruck::whereDoesntHave('routes')->get(),
             'pool' => Pool::all(),
             'landfill' => Landfill::all(),
         ];

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Route;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class GarbageTruck extends Model
 {
@@ -20,4 +21,9 @@ class GarbageTruck extends Model
         'volume',
         'type',
     ];
+    
+    public function routes()
+    {
+        return $this->hasMany(Route::class);
+    }
 }

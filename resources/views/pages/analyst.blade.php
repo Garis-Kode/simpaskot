@@ -58,7 +58,7 @@
               <div class="separator separator-dashed my-3"></div>
                 <div class="d-flex flex-stack">
                   <span class="fw-semibold fs-6 me-2">Volume</span>                   
-                  <span class="fs-7">{{ $route->garbageTruck->volume }}m <sup>3</sup> </span>                   
+                  <span class="fs-7">{{ $route->garbageTruck->volume }}m<sup>3</sup> </span>                   
                 </div>
             </div>
           </div>
