@@ -61,9 +61,11 @@
                   <td>{{ $item->name }}</td>
                   <td>{{ $item->garbageTruck->license_plate }}</td>
                   <td>
+                    {{ $item->pool->name }},
                     @foreach ($item->location as $location)
                       {{ $location->dumpingPlace->name }},
                     @endforeach
+                    {{ $item->landfill->name }}
                   </td>
                   <td class="text-end">
                     <a href="#" data-bs-toggle="modal" data-bs-target="#analyst{{ $item->id }}" class="btn btn-sm btn-danger btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -99,7 +101,7 @@
                 <div class="row">
                   <div class="col mb-5">
                     <label for="exampleFormControlInput1" class="required form-label">T0</label>
-                    <input type="number" step="any" name="t0" class="form-control form-control-solid @error('t0') is-invalid @enderror"  value="{{ old('t0') }}" placeholder="0" required/>
+                    <input type="number" step="any" name="t0" class="form-control form-control-solid @error('t0') is-invalid @enderror"  value="5000" placeholder="0" required/>
                     @error('t0')
                       <div class="invalid-feedback">
                         {{ $message }}
@@ -108,7 +110,7 @@
                   </div>
                   <div class="col mb-5">
                     <label for="exampleFormControlInput1" class="required form-label">T1</label>
-                    <input type="number" step="any" name="t1" class="form-control form-control-solid @error('t1') is-invalid @enderror"  value="{{ old('t1') }}" placeholder="0" required/>
+                    <input type="number" step="any" name="t1" class="form-control form-control-solid @error('t1') is-invalid @enderror"  value="1" placeholder="0" required/>
                     @error('t1')
                       <div class="invalid-feedback">
                         {{ $message }}
@@ -119,7 +121,7 @@
                 <div class="row">
                   <div class="col mb-5">
                     <label for="exampleFormControlInput1" class="required form-label">Alpha</label>
-                    <input type="number" step="any" name="alpha" class="form-control form-control-solid @error('alpha') is-invalid @enderror"  value="{{ old('alpha') }}" placeholder="0" required/>
+                    <input type="number" step="any" name="alpha" class="form-control form-control-solid @error('alpha') is-invalid @enderror"  value="0.55" placeholder="0" required/>
                     @error('alpha')
                       <div class="invalid-feedback">
                         {{ $message }}
@@ -128,7 +130,7 @@
                   </div>
                   <div class="col mb-5">
                     <label for="exampleFormControlInput1" class="required form-label">Max Iteration</label>
-                    <input type="number" step="any" name="iteration" class="form-control form-control-solid @error('iteration') is-invalid @enderror"  value="{{ old('iteration') }}" placeholder="0" required/>
+                    <input type="number" step="any" name="iteration" class="form-control form-control-solid @error('iteration') is-invalid @enderror"  value="1000" placeholder="0" required/>
                     @error('iteration')
                       <div class="invalid-feedback">
                         {{ $message }}

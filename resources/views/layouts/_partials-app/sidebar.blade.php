@@ -40,6 +40,20 @@
           </div>
         </div>
 
+        <div class="menu-item @if ($title == 'Pool') here @endif">
+          <a class="menu-link" href="{{ route('pool') }}">
+            <span class="menu-icon">
+              <i class="ki-duotone ki-route fs-2">
+                <span class="path1"></span>
+                <span class="path2"></span>
+                <span class="path3"></span>
+                <span class="path4"></span>
+              </i>
+            </span>
+            <span class="menu-title">Pool</span>
+          </a>
+        </div>
+
         <div class="menu-item @if ($title == 'Dumping Place') here @endif">
           <a class="menu-link" href="{{ route('dumping-place') }}">
             <span class="menu-icon">
@@ -49,6 +63,20 @@
               </i>
             </span>
             <span class="menu-title">Dumping Place</span>
+          </a>
+        </div>
+
+        <div class="menu-item @if ($title == 'Landfill') here @endif">
+          <a class="menu-link" href="{{ route('landfill') }}">
+            <span class="menu-icon">
+              <i class="ki-duotone ki-trash-square fs-2">
+                <span class="path1"></span>
+                <span class="path2"></span>
+                <span class="path3"></span>
+                <span class="path4"></span>
+              </i>
+            </span>
+            <span class="menu-title">Landfill</span>
           </a>
         </div>
 

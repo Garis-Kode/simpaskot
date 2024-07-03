@@ -1,12 +1,7 @@
 @extends('layouts.app')
 
 @section('style')
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <style>
-  .centered-cell {
-    vertical-align: middle;
-    text-align: center; /* Optional: To center text horizontally as well */
-  }
   #map { height: 400px; }
 </style>
 
@@ -47,8 +42,8 @@
             <span class="card-label fw-bold fs-4">Truck</span>
             <div class="mt-5">
                 <div class="d-flex flex-stack">
-                  <span class="fw-semibold fs-6 me-2">License Plate</span>                   
-                  <span class="fs-7">{{ $route->garbageTruck->license_plate }}</span>                   
+                  <span class="fw-semibold fs-6 me-2">License Plate - type</span>                   
+                  <span class="fs-7">{{ $route->garbageTruck->license_plate }} - {{ $route->garbageTruck->type }}</span>                   
                 </div>
               <div class="separator separator-dashed my-3"></div>
                 <div class="d-flex flex-stack">
@@ -62,8 +57,8 @@
                 </div>
               <div class="separator separator-dashed my-3"></div>
                 <div class="d-flex flex-stack">
-                  <span class="fw-semibold fs-6 me-2">Type</span>                   
-                  <span class="fs-7">{{ $route->garbageTruck->type }}</span>                   
+                  <span class="fw-semibold fs-6 me-2">Volume</span>                   
+                  <span class="fs-7">{{ $route->garbageTruck->volume }}m <sup>3</sup> </span>                   
                 </div>
             </div>
           </div>
@@ -75,6 +70,7 @@
                   <thead>
                     <tr class="text-start fw-bold fs-7 gs-0">
                       <th class="min-w-50px">Name</th>
+                      <th class="min-w-50px">Address</th>
                       <th class="min-w-50px">Latitude</th>
                       <th class="min-w-50px">Longitude</th>
                       <th class="min-w-50px">Volume</th>
@@ -83,6 +79,7 @@
                   <tbody>
                     <tr>
                       <td>{{$route->pool->name}}</td>
+                      <td>{{$route->pool->address}}</td>
                       <td>{{$route->pool->longitude}}</td>
                       <td>{{$route->pool->latitude}}</td>
                       <td>-</td>
@@ -90,6 +87,7 @@
                     @foreach ($route->location as $index => $item)
                       <tr>
                         <td>{{ $item->dumpingPlace->name }}</td>
+                        <td>{{ $item->dumpingPlace->address }}</td>
                         <td>{{ $item->dumpingPlace->latitude }}</td>
                         <td>{{ $item->dumpingPlace->longitude }}</td>
                         <td>{{ $item->dumpingPlace->volume }}m<sup>3</sup></td>
@@ -97,6 +95,7 @@
                     @endforeach
                     <tr>
                       <td>{{$route->landfill->name}}</td>
+                      <td>{{$route->landfill->address}}</td>
                       <td>{{$route->landfill->longitude}}</td>
                       <td>{{$route->landfill->latitude}}</td>
                       <td>-</td>
@@ -233,17 +232,49 @@
     pageLength : 25,
   });
 </script>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.api_key') }}&libraries=places"></script>
 <script>
-  var map = L.map('map').setView([5.1843, 97.1451], 12);
+function initMap() {
+    var map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 5.1843, lng: 97.1451},
+        zoom: 12
+    });
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(map);
+    var directionsService = new google.maps.DirectionsService();
+    var directionsRenderer = new google.maps.DirectionsRenderer();
 
-  @foreach ($bestSolution as $item) 
-      var marker = L.marker([{{ $item['latitude'] }}, {{ $item['longitude'] }}]).addTo(map);
-      marker.bindPopup("<b>{{ $item['name'] }}</b><br>{{ $item['address'] }}")
-  @endforeach
+    directionsRenderer.setMap(map);
+
+    var waypts = [
+      @foreach ($bestSolution as $index => $solution)
+          @if ($index != 0 && $index != count($bestSolution) - 1)
+              {
+                  location: {lat: {{$solution['latitude']}}, lng: {{$solution['longitude']}}},
+                  stopover: true
+              },
+          @endif
+      @endforeach
+    ];
+
+    var origin = {lat: {{$route->pool->latitude}}, lng: {{$route->pool->longitude}}}; // Titik awal (Jakarta)
+    var destination = {lat: {{$route->landfill->latitude}}, lng: {{$route->landfill->longitude}}}; // Titik akhir (Denpasar)
+
+    directionsService.route({
+        origin: origin,
+        destination: destination,
+        waypoints: waypts,
+        optimizeWaypoints: true,
+        travelMode: google.maps.TravelMode.DRIVING
+    }, function(response, status) {
+        if (status === google.maps.DirectionsStatus.OK) {
+            directionsRenderer.setDirections(response);
+        } else {
+            window.alert('Directions request failed due to ' + status);
+        }
+    });
+}
+
+google.maps.event.addDomListener(window, 'load', initMap);
+
 </script>
 @endsection

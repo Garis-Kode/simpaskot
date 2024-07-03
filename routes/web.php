@@ -7,6 +7,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DumpingPlaceController;
 use App\Http\Controllers\GarbageTruckController;
+use App\Http\Controllers\LandfillController;
+use App\Http\Controllers\PoolController;
 use App\Http\Controllers\RouteController;
 
 Route::get('/', function () {
@@ -23,10 +25,17 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard'
 
 
 Route::prefix('/pool')->group(function () {
-    Route::get('/', [DumpingPlaceController::class, 'index'])->name('dumping-place');
-    Route::post('/', [DumpingPlaceController::class, 'store'])->name('dumping-place.store');
-    Route::post('/{id}', [DumpingPlaceController::class, 'update'])->name('dumping-place.update');
-    Route::get('/{id}', [DumpingPlaceController::class, 'destroy'])->name('dumping-place.destroy');
+    Route::get('/', [PoolController::class, 'index'])->name('pool');
+    Route::post('/', [PoolController::class, 'store'])->name('pool.store');
+    Route::post('/{id}', [PoolController::class, 'update'])->name('pool.update');
+    Route::get('/{id}', [PoolController::class, 'destroy'])->name('pool.destroy');
+})->middleware('auth');
+
+Route::prefix('/landfill')->group(function () {
+    Route::get('/', [LandfillController::class, 'index'])->name('landfill');
+    Route::post('/', [LandfillController::class, 'store'])->name('landfill.store');
+    Route::post('/{id}', [LandfillController::class, 'update'])->name('landfill.update');
+    Route::get('/{id}', [LandfillController::class, 'destroy'])->name('landfill.destroy');
 })->middleware('auth');
 
 Route::prefix('/dumping-place')->group(function () {

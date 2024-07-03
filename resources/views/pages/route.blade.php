@@ -118,7 +118,7 @@
                 @foreach ($data as $item)
                   <tr>
                     <td>{{ $item->name }}</td>
-                    <td>{{ $item->garbageTruck->license_plate }}</td>
+                    <td>{{ $item->garbageTruck->license_plate }} - {{ $item->garbageTruck->type }}</td>
                     <td>{{ $item->pool->name }} <br>({{ $item->pool->address }}) </td>
                     <td>
                       @foreach ($item->location as $location)
@@ -197,6 +197,20 @@
                 @enderror
               </div>
               <div class="mb-5">
+                <label for="exampleFormControlInput1" class="required form-label">Start Route</label>
+                <select class="form-select form-select-solid  @error('pool') is-invalid @enderror" name="pool" aria-label="Select example">
+                  <option value="">Choose pool</option>
+                  @foreach ($pool as $index)
+                    <option option value="{{ $index->id }}" @if ( old('pool') ?? $item->pool_id == $index->id) selected @endif>{{ $index->name }} ({{ $index->address }})</option>
+                  @endforeach
+                </select>
+                @error('pool')
+                  <div class="invalid-feedback">
+                    {{ $message }}
+                  </div>
+                @enderror
+              </div>
+              <div class="mb-5">
                 <label for="exampleFormControlInput1" class="required form-label">Location</label>
                 <select class="form-select form-select-solid" data-control="select2" data-close-on-select="false" data-placeholder="Select an option" data-allow-clear="true" multiple="multiple" name="location[]" required>
                     @foreach ($dumpingPlace as $place)
@@ -207,6 +221,20 @@
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>
+                @enderror
+              </div>
+              <div class="mb-5">
+                <label for="exampleFormControlInput1" class="required form-label">Start Route</label>
+                <select class="form-select form-select-solid  @error('landfill') is-invalid @enderror" name="landfill" aria-label="Select example">
+                  <option value="">Choose landfill</option>
+                  @foreach ($landfill as $index)
+                    <option option value="{{ $index->id }}" @if ( old('landfill') ?? $item->landfill_id == $index->id) selected @endif>{{ $index->name }} ({{ $index->address }})</option>
+                  @endforeach
+                </select>
+                @error('landfill')
+                  <div class="invalid-feedback">
+                    {{ $message }}
+                  </div>
                 @enderror
               </div>
             </div>

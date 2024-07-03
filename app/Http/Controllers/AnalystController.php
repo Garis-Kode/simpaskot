@@ -217,7 +217,7 @@ class AnalystController extends Controller
             'bestTemperature' => $bestTemperature,
             'totalDistance' => number_format($totalDistance, 2),    
             'totalTime' => $formattedTime,
-            'iterations' => $iterationsData
+            'iterations' => $iterationsData,
         ];  
         // return response()->json($data);
         return view('pages.analyst', $data);
