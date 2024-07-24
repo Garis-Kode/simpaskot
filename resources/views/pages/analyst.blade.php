@@ -4,13 +4,13 @@
 <style>
   #map { height: 400px; }
 </style>
-
+<script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.api_key') }}&libraries=places"></script>
 @endsection
 
 @section('content')
 
 <div class="row g-5 g-xl-8">
-  <div class="col-xl-12 mb-2">
+  {{-- <div class="col-xl-12 mb-2">
     <div class="card card-flush">
       <div class="card-body">
         <div class="row">
@@ -164,7 +164,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> --}}
 
   <div class="col-xl-12 mb-2">
     <div class="card card-flush">
@@ -172,57 +172,94 @@
         <div class="card-title">
           <h3 class="card-title align-items-start flex-column">
             <span class="card-label fw-bold fs-4 mb-1">Best Solution</span>
+            <span class="text-muted fw-semibold fs-7">Best route schedule</span>              
           </h3>
         </div>
       </div>
       <div class="card-body pt-5">                 
         <div class="table-responsive">
-          <table class="table table-bordered fs-7">
-            <thead>
-              <tr class="text-start fw-bold fs-7 gs-0">
-                <th class="min-w-50px">Iteration</th>
-                <th class="min-w-50px">Temperature</th>
-                <th class="min-w-150px">Route</th>
-                <th class="min-w-50px">Cost</th>
-                <th class="min-w-50px">Distance</th>
-                <th class="min-w-50px">TIme</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{{ $bestIteration }}</td>
-                <td>{{ $bestTemperature }}</td>
-                <td>
-                  @foreach ($bestSolution as $index)
-                    @if (!$loop->last)
-                        {{ $index['name'] }} - 
-                    @else
-                        {{ $index['name'] }}
-                    @endif
-                @endforeach
-                <br>
-                (@foreach ($bestSolution as $index)
-                    @if (!$loop->last)
-                        {{ $index['address'] }} - 
-                    @else
-                        {{ $index['address'] }}
-                    @endif
-                @endforeach)
-                </td>
-                <td>Rp. {{ $bestCost }}</td>
-                <td>{{ $totalDistance }} km</td>
-                <td>{{ $totalTime }}</td>
-              </tr>
-            </tbody>
-          </table>
+            <table class="table table-bordered fs-7">
+                <thead>
+                    <tr class="text-start fw-bold fs-7 gs-0">
+                        <th class="min-w-50px">Time Range</th>
+                        <th class="min-w-50px">Vehicle</th>
+                        <th class="min-w-150px">Route</th>
+                        <th class="min-w-50px">Cost</th>
+                        <th class="min-w-50px">Distance</th>
+                        <th class="min-w-50px">Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($result as $item)
+                    <tr>
+                        <td>{{ $item['best_time_range'] }}</td>
+                        <td>{{ $item['vehicle']['license_plate'] }} ({{ $item['vehicle']['driver_name'] }})</td>
+                        <td>
+                            @foreach ($item['best_route'] as $route)
+                                {{ $route->name }} ({{ $route->address }}) -
+                            @endforeach
+                        </td>
+                        <td>{{ $item['best_fuel_price'] }}</td>
+                        <td>{{ $item['best_distance_km'] }}</td>
+                        <td>{{ $item['best_time_formatted'] }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            <div id="map{{ $item['vehicle']['id'] }}" style="height: 400px; width: 100%;"></div>
+                            <script>
+                                function initMap{{ $item['vehicle']['id'] }}() {
+                                    var map = new google.maps.Map(document.getElementById('map{{ $item['vehicle']['id'] }}'), {
+                                        center: {lat: 5.1843, lng: 97.1451},
+                                        zoom: 12
+                                    });
+    
+                                    var directionsService = new google.maps.DirectionsService();
+                                    var directionsRenderer = new google.maps.DirectionsRenderer();
+    
+                                    directionsRenderer.setMap(map);
+    
+                                    var waypts = [
+                                        @foreach ($item['best_route'] as $index => $solution)
+                                            @if ($index != 0 && $index != count($item['best_route']) - 1)
+                                                {
+                                                    location: {lat: {{ $solution['latitude'] }}, lng: {{ $solution['longitude'] }}},
+                                                    stopover: true
+                                                },
+                                            @endif
+                                        @endforeach
+                                    ];
+    
+                                    var origin = {lat: 5.1848613681201, lng: 97.142155634123};
+                                    var destination = {lat: 5.1295233611464, lng: 97.119761785693};
+    
+                                    directionsService.route({
+                                        origin: origin,
+                                        destination: destination,
+                                        waypoints: waypts,
+                                        optimizeWaypoints: false,
+                                        travelMode: google.maps.TravelMode.DRIVING
+                                    }, function(response, status) {
+                                        if (status === google.maps.DirectionsStatus.OK) {
+                                            directionsRenderer.setDirections(response);
+                                        } else {
+                                            window.alert('Directions request failed due to ' + status);
+                                        }
+                                    });
+                                }
+                                google.maps.event.addDomListener(window, 'load', initMap{{ $item['vehicle']['id'] }});
+                            </script>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
-        <div id="map"></div>
-      </div>
+    </div>
+    
     </div>
   </div>
 
 </div>
-{{-- {{dd($dumpingPlace)}} --}}
 @endsection
 
 @section('script')
@@ -231,50 +268,5 @@
     "scrollX": false,
     pageLength : 25,
   });
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.api_key') }}&libraries=places"></script>
-<script>
-function initMap() {
-    var map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 5.1843, lng: 97.1451},
-        zoom: 12
-    });
-
-    var directionsService = new google.maps.DirectionsService();
-    var directionsRenderer = new google.maps.DirectionsRenderer();
-
-    directionsRenderer.setMap(map);
-
-    var waypts = [
-      @foreach ($bestSolution as $index => $solution)
-          @if ($index != 0 && $index != count($bestSolution) - 1)
-              {
-                  location: {lat: {{$solution['latitude']}}, lng: {{$solution['longitude']}}},
-                  stopover: true
-              },
-          @endif
-      @endforeach
-    ];
-
-    var origin = {lat: {{$route->pool->latitude}}, lng: {{$route->pool->longitude}}}; // Titik awal (Jakarta)
-    var destination = {lat: {{$route->landfill->latitude}}, lng: {{$route->landfill->longitude}}}; // Titik akhir (Denpasar)
-
-    directionsService.route({
-        origin: origin,
-        destination: destination,
-        waypoints: waypts,
-        optimizeWaypoints: true,
-        travelMode: google.maps.TravelMode.DRIVING
-    }, function(response, status) {
-        if (status === google.maps.DirectionsStatus.OK) {
-            directionsRenderer.setDirections(response);
-        } else {
-            window.alert('Directions request failed due to ' + status);
-        }
-    });
-}
-
-google.maps.event.addDomListener(window, 'load', initMap);
-
 </script>
 @endsection

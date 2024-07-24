@@ -2,21 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Location;
+use App\Models\Route;
 use Illuminate\Http\Request;
 
 class AnalystController extends Controller
 {
-    public function index()
+    public function index(Request $request, $id)
     {
-        $start_point = $this->startPoint();
-        $end_point = $this->endPoint();
-        $locations = $this->getLocations();
-        $vehicles = $this->getVehicles();
-        $max_volume = 3; // Maksimal volume kendaraan dalam m3
-        $T = 5000;
-        $T_min = 1;
-        $alpha = 0.55;
-        $max_iter = 1000;
+        $route = Route::where('id', $id)->first();
+        $start_point = $this->startPoint($id);
+        $end_point = $this->endPoint($id);
+        $locations = $this->getLocations($id);
+        $vehicles = $this->getVehicles($id);
+        $T = $request->query('t0', 5000);
+        $T_min = $request->query('t1', 1);
+        $alpha = $request->query('alpha', 0.55);
+        $max_iter = $request->query('iteration', 1000);
+        $max_volume = 6; // Maksimal volume kendaraan dalam m3
         $vehicle_speed = 50; // km/h
         $stop_time = 15; // waktu berhenti di setiap titik dalam menit
         $start_time = '08:00'; // waktu mulai
@@ -72,164 +75,51 @@ class AnalystController extends Controller
             }
         }
 
-        return response()->json($results);
+        $data = [
+            'title' => 'Analysis',
+            'subTitle' => $route->name,
+            'route' => $route,
+            'result' => $results,
+            't0' => $T,
+            't1' => $T_min,
+            'alpha' => $alpha,
+            'iteration' => $max_iter
+        ];  
+
+        // return $data['result'];
+        return view('pages.analyst', $data);
     }
 
-    private function startPoint()
+    private function startPoint($id)
     {
-        return [
-            'name' => 'POOL',
-            'address' => 'Kantor DLH Kota Lhoksemawe',
-            'latitude' => 5.1848613681201,
-            'longitude' => 97.142155634123,
-        ];
+        $point = Route::where('id', $id)->first();
+        return $point->pool;
     }
 
-    private function endPoint()
+    private function endPoint($id)
     {
-        return [
-            'name' => 'TPAS',
-            'address' => 'TPAS Alue Lim',
-            'latitude' => 5.1295233611464,
-            'longitude' => 97.119761785693,
-        ];
+        $point = Route::where('id', $id)->first();
+        return $point->landfill;
     }
 
-    private function getLocations()
+    private function getLocations($id)
     {
-        return [
-            'TP-01' => [
-                'name' => 'TP-01',
-                'address' => 'Pasar Ikan Kota',
-                'latitude' => 5.1743300465385,
-                'longitude' => 97.151824604081,
-                'volume' => 1
-            ],
-            'TP-02' => [
-                'name' => 'TP-02',
-                'address' => 'Jembatan Cunda',
-                'latitude' => 5.177609224689,
-                'longitude' => 97.130966438378,
-                'volume' => 1
-            ],
-            'TP-03' => [
-                'name' => 'TP-03',
-                'address' => 'Lapas',
-                'latitude' => 5.1797211948054,
-                'longitude' => 97.149192296048,
-                'volume' => 1
-            ],
-            'TP-04' => [
-                'name' => 'TP-04',
-                'address' => 'Pasar Impress',
-                'latitude' => 5.1836980248889,
-                'longitude' => 97.142149096048,
-                'volume' => 1
-            ],
-            'TP-05' => [
-                'name' => 'TP-05',
-                'address' => 'Cunda',
-                'latitude' => 5.1750212578548,
-                'longitude' => 97.130529418679,
-                'volume' => 1
-            ],
-            'TP-06' => [
-                'name' => 'TP-06',
-                'address' => 'Kompi Brimob',
-                'latitude' => 5.1360689732979,
-                'longitude' => 97.107415589353,
-                'volume' => 1
-            ],
-            'TP-07' => [
-                'name' => 'TP-07',
-                'address' => 'Pesantren Lhok Mon Puteh',
-                'latitude' => 5.1612177166281,
-                'longitude' => 97.129517397292,
-                'volume' => 1
-            ],
-            'TP-08' => [
-                'name' => 'TP-08',
-                'address' => 'Politeknik',
-                'latitude' => 5.120614308847,
-                'longitude' => 97.158366296048,
-                'volume' => 1
-            ],
-            'TP-09' => [
-                'name' => 'TP-09',
-                'address' => 'Rumah Sakit Umum',
-                'latitude' => 5.1221308850208,
-                'longitude' => 97.156367699476,
-                'volume' => 1
-            ],
-            'TP-10' => [
-                'name' => 'TP-10',
-                'address' => 'Dayah Paloh',
-                'latitude' => 5.2101562314618,
-                'longitude' => 97.084714788057,
-                'volume' => 1
-            ],
-            'TP-11' => [
-                'name' => 'TP-11',
-                'address' => 'Punteut',
-                'latitude' => 5.1160453588676,
-                'longitude' => 97.168242087696,
-                'volume' => 1
-            ],
-            'TP-12' => [
-                'name' => 'TP-12',
-                'address' => 'Blang Rayeuk',
-                'latitude' => 5.1945017596566,
-                'longitude' => 97.13469391932,
-                'volume' => 3
-            ],
-            'TP-13' => [
-                'name' => 'TP-13',
-                'address' => 'Dayah Abu Bakar',
-                'latitude' => 5.1153571741178,
-                'longitude' => 97.172158280235,
-                'volume' => 3
-            ],
-            'TP-14' => [
-                'name' => 'TP-14',
-                'address' => 'Kesrem',
-                'latitude' => 5.1824297190881,
-                'longitude' => 97.150219540007,
-                'volume' => 1
-            ],
-            'TP-15' => [
-                'name' => 'TP-15',
-                'address' => 'Lapangan BI',
-                'latitude' => 5.2062485514116,
-                'longitude' => 97.073040111749,
-                'volume' => 3
-            ],
-        ];
+        $point = Route::where('id', $id)->first();
+        $result = [];
+        foreach ($point->location as $location) {
+            $result[$location->dumpingPlace->name] = $location->dumpingPlace;
+        };
+        return $result;
     }
 
-    private function getVehicles()
+    private function getVehicles($id)
     {
-        return [
-            [
-                'license_plate' => 'BL 123 ABC',
-                'driver_name' => 'John Doe',
-                'fuel_price' => 1430,
-            ],
-            [
-                'license_plate' => 'BL 1271 OL',
-                'driver_name' => 'Jane',
-                'fuel_price' => 1200,
-            ],
-            [
-                'license_plate' => 'BL 1222 OL',
-                'driver_name' => 'Jack',
-                'fuel_price' => 1200,
-            ],
-            [
-                'license_plate' => 'BL 7899 DBC',
-                'driver_name' => 'Michael',
-                'fuel_price' => 1500,
-            ],
-        ];
+        $point = Route::where('id', $id)->first();
+        $result = [];
+        foreach ($point->trucks as $trucks) {
+            $result[] = $trucks->garbageTruck;
+        };
+        return $result;
     }
 
     private function haversineDistance($loc1, $loc2)

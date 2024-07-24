@@ -32,7 +32,6 @@ class GarbageTruckController extends Controller
         $data->license_plate = $request->input('plate');
         $data->driver_name = $request->input('driver');
         $data->fuel_price = $request->input('price');
-        $data->volume = $request->input('volume');
         $data->type = $request->input('type');
         $data->save();
         return redirect()->route('garbage-truck')->with('success', 'New data has been successfully added');
@@ -53,7 +52,6 @@ class GarbageTruckController extends Controller
         $data->license_plate = $request->input('plate');
         $data->driver_name = $request->input('driver');
         $data->fuel_price = $request->input('price');
-        $data->volume = $request->input('volume');
         $data->type = $request->input('type');
         $data->save();
         return redirect()->route('garbage-truck')->with('success', 'Data has been successfully updated');
