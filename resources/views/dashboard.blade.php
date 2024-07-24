@@ -39,8 +39,8 @@
       <div class="card-header align-items-center py-5 gap-2 gap-md-5">
         <div class="card-title">
           <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bold fs-3 mb-1">Route</span>
-            <span class="text-muted fw-semibold fs-7">Route Location</span>              
+            <span class="card-label fw-bold fs-3 mb-1">Schedule</span>
+            <span class="text-muted fw-semibold fs-7">Route Schedule</span>              
           </h3>
         </div>
       </div>
@@ -49,7 +49,7 @@
           <table class="table table-row-dashed gy-5 fs-6">
             <thead>
               <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
-                <th class="min-w-100px">Name</th>
+                <th class="min-w-100px">Route Name</th>
                 <th class="min-w-150px">Truck</th>
                 <th class="min-w-200px">Location</th>
                 <th class="min-w-50px text-end">action</th>
@@ -59,7 +59,11 @@
               @foreach ($route as $item)
                 <tr>
                   <td>{{ $item->name }}</td>
-                  <td>{{ $item->garbageTruck->license_plate }}</td>
+                  <td>
+                    @foreach ($item->trucks as $location)
+                      {{ $location->garbageTruck->license_plate }},
+                    @endforeach
+                  </td>
                   <td>
                     {{ $item->pool->name }},
                     @foreach ($item->location as $location)

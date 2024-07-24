@@ -22,8 +22,13 @@ class GarbageTruck extends Model
         'type',
     ];
     
-    public function routes()
+    // public function routes()
+    // {
+    //     return $this->hasMany(Route::class);
+    // }
+
+    public function trucks()
     {
-        return $this->hasMany(Route::class);
+        return $this->hasMany(Trucks::class);
     }
 }

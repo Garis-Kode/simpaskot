@@ -43,11 +43,9 @@
         <div class="menu-item @if ($title == 'Pool') here @endif">
           <a class="menu-link" href="{{ route('pool') }}">
             <span class="menu-icon">
-              <i class="ki-duotone ki-route fs-2">
-                <span class="path1"></span>
-                <span class="path2"></span>
-                <span class="path3"></span>
-                <span class="path4"></span>
+              <i class="ki-duotone ki-flag fs-2">
+              <span class="path1"></span>
+              <span class="path2"></span>
               </i>
             </span>
             <span class="menu-title">Pool</span>

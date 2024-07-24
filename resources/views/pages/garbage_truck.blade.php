@@ -71,18 +71,6 @@
                             </div>
                           @enderror
                         </div>
-                        <div class="mb-5">
-                          <label for="exampleFormControlInput1" class="form-label">Volume</label>
-                          <div class="input-group">
-                            <input type="number" step="any" name="volume" class="form-control form-control-solid @error('volume') is-invalid @enderror"  value="{{ old('volume') }}" placeholder="0"/>
-                            <span class="input-group-text border-0" id="basic-addon2">m<sup>3</sup> </span>
-                          </div>
-                          @error('volume')
-                            <div class="invalid-feedback">
-                              {{ $message }}
-                            </div>
-                          @enderror
-                        </div>
                       </div>
                       <div class="modal-footer">
                           <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
@@ -101,7 +89,6 @@
                   <th class="min-w-150px">License Plate</th>
                   <th class="min-w-150px">Driver Name</th>
                   <th class="min-w-150px">Fuel Price</th>
-                  <th class="min-w-150px">Volume</th>
                   <th class="min-w-150px">Type</th>
                   <th class="min-w-50px text-end">action</th>
                 </tr>
@@ -112,7 +99,6 @@
                     <td>{{ $item->license_plate }}</td>
                     <td>{{ $item->driver_name }}</td>
                     <td>Rp.{{ number_format($item->fuel_price) }}/km</td>
-                    <td>{{ $item->volume }} m<sup>3</sup> </td>
                     <td>{{ $item->type }}</td>
                     <td class="text-end">
                       <a href="#" class="btn btn-sm btn-light btn-active-light-primary btn-flex btn-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -196,18 +182,6 @@
                   <span class="input-group-text border-0" id="basic-addon2">/km</span>
                 </div>
                 @error('price')
-                  <div class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                @enderror
-              </div>
-              <div class="mb-5">
-                <label for="exampleFormControlInput1" class="form-label">Volume</label>
-                <div class="input-group">
-                  <input type="number" step="any" name="volume" class="form-control form-control-solid @error('volume') is-invalid @enderror"  value="{{ old('volume') ?? $item->volume }}" placeholder="0"/>
-                  <span class="input-group-text border-0" id="basic-addon2">m<sup>3</sup> </span>
-                </div>
-                @error('volume')
                   <div class="invalid-feedback">
                     {{ $message }}
                   </div>

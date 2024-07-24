@@ -25,9 +25,9 @@ class Route extends Model
         'name',
     ];
 
-    public function garbageTruck(): BelongsTo
+    public function trucks()
     {
-        return $this->belongsTo(GarbageTruck::class);
+        return $this->hasMany(Trucks::class);
     }
     
     public function location()

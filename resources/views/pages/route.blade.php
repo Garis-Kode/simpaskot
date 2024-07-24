@@ -38,16 +38,15 @@
                         </div>
                         <div class="mb-5">
                           <label for="exampleFormControlInput1" class="required form-label">Garbage Truck</label>
-                          <select class="form-select form-select-solid  @error('truck') is-invalid @enderror" name="truck" aria-label="Select example" required>
-                              <option value="">Choose Truck</option>
-                              @foreach ($garbageTruck as $item)
-                                <option option value="{{ $item->id }}" @if (old('truck') == $item->id) selected @endif>{{ $item->driver_name }} ({{ $item->license_plate }})</option>
+                          <select class="form-select form-select-solid" data-control="select2" data-close-on-select="false" data-placeholder="Select an option" data-allow-clear="true" multiple="multiple" name="truck[]" required>
+                            @foreach ($garbageTruck as $item)
+                            <option value="{{ $item->id }}">{{ $item->license_plate }} ({{ $item->driver_name }})</option>
                               @endforeach
                           </select>
-                          @error('truck')
-                            <div class="invalid-feedback">
-                              {{ $message }}
-                            </div>
+                          @error('location')
+                              <div class="invalid-feedback">
+                                  {{ $message }}
+                              </div>
                           @enderror
                         </div>
                         <div class="mb-5">
@@ -118,7 +117,15 @@
                 @foreach ($data as $item)
                   <tr>
                     <td>{{ $item->name }}</td>
-                    <td>{{ $item->garbageTruck->license_plate }} - {{ $item->garbageTruck->type }}</td>
+                    <td>
+                      @foreach ($item->trucks as $truck)
+                        {{ $truck->garbageTruck->license_plate }},
+                      @endforeach
+                      <br>
+                      (@foreach ($item->trucks as $truck)
+                        {{ $truck->garbageTruck->driver_name }},
+                      @endforeach)
+                    </td>
                     <td>{{ $item->pool->name }} <br>({{ $item->pool->address }}) </td>
                     <td>
                       @foreach ($item->location as $location)
@@ -182,7 +189,7 @@
                   </div>
                 @enderror
               </div>
-              <div class="mb-5">
+              {{-- <div class="mb-5">
                 <label for="exampleFormControlInput1" class="required form-label">Garbage Truck</label>
                 <select class="form-select form-select-solid  @error('truck') is-invalid @enderror" name="truck" aria-label="Select example">
                   <option option value="{{ $item->garbageTruck->id }}" @if ( old('truck') == $item->garbageTruck->id) selected @endif>{{ $item->garbageTruck->driver_name }} ({{ $item->garbageTruck->license_plate }})</option>
@@ -194,6 +201,22 @@
                   <div class="invalid-feedback">
                     {{ $message }}
                   </div>
+                @enderror
+              </div> --}}
+              <div class="mb-5">
+                <label for="exampleFormControlInput1" class="required form-label">Garbage Truck</label>
+                <select class="form-select form-select-solid" data-control="select2" data-close-on-select="false" data-placeholder="Select an option" data-allow-clear="true" multiple="multiple" name="truck[]" required>
+                    @foreach ($item->trucks as $truck)
+                        <option value="{{ $truck->garbageTruck->id }}" selected>{{ $truck->garbageTruck->license_plate }} ({{ $truck->garbageTruck->driver_name }})</option>
+                    @endforeach
+                    @foreach ($garbageTruck as $truck)
+                        <option value="{{ $truck->id }}">{{ $truck->license_plate }} ({{ $truck->driver_name }})</option>
+                    @endforeach
+                </select>
+                @error('location')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
                 @enderror
               </div>
               <div class="mb-5">

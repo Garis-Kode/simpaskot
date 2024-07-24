@@ -8,6 +8,7 @@ use App\Models\Landfill;
 use App\Models\Location;
 use App\Models\DumpingPlace;
 use App\Models\GarbageTruck;
+use App\Models\Trucks;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -19,7 +20,7 @@ class RouteController extends Controller
             'subTitle' => null,
             'data' => Route::all(),
             'dumpingPlace' => DumpingPlace::whereDoesntHave('location')->get(),
-            'garbageTruck' => GarbageTruck::whereDoesntHave('routes')->get(),
+            'garbageTruck' => GarbageTruck::whereDoesntHave('trucks')->get(),
             'pool' => Pool::all(),
             'landfill' => Landfill::all(),
         ];
@@ -36,11 +37,17 @@ class RouteController extends Controller
         }
 
         $data = New Route();
-        $data->garbage_truck_id = $request->input('truck');
         $data->name = $request->input('name');
         $data->pool_id = $request->input('pool');
         $data->landfill_id = $request->input('landfill');
         $data->save();
+
+        foreach ($request->truck as  $result) {
+            Trucks::updateOrInsert([
+                'route_id' => $data->id,
+                'garbage_truck_id' => $result
+            ]);
+        }
 
         foreach ($request->location as  $result) {
             Location::updateOrInsert([
@@ -62,9 +69,19 @@ class RouteController extends Controller
         }
 
         $data = Route::findOrFail($id);
-        $data->garbage_truck_id = $request->input('truck');
-        $data->name = $request->input('name');
         $data->save();
+
+        if(is_array($request->truck)){
+            Trucks::where('route_id', $data->id)->delete();
+            foreach ($request->location as  $result) {
+                Trucks::updateOrInsert([
+                    'route_id' => $data->id,
+                    'garbage_truck_id' => $result
+                ]);
+            }
+        }else{
+            Trucks::where('route_id', $data->id)->delete();
+        }
 
         if(is_array($request->location)){
             Location::where('route_id', $data->id)->delete();
